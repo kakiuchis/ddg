@@ -16,6 +16,7 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'dotenv-rails'
 gem 'devise'
+gem 'google-api-client', '~> 0.11', require: 'google/apis/gmail_v1'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
