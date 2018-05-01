@@ -1,8 +1,9 @@
 class GmailCallbacksController < ApplicationController
+  before_action :authenticate_user!
   def redirect
     client = Signet::OAuth2::Client.new({
-      client_id: ENV.fetch('GOOGLE_API_CLIENT_ID'),
-      client_secret: ENV.fetch('GOOGLE_API_CLIENT_SECRET'),
+      client_id: ENV.fetch('GOOGLE_API_CLIENT_ID_DEVELOPMENT'),
+      client_secret: ENV.fetch('GOOGLE_API_CLIENT_SECRET_DEVELOPMENT'),
       authorization_uri: 'https://accounts.google.com/o/oauth2/auth',
       scope: Google::Apis::GmailV1::AUTH_GMAIL_READONLY,
       redirect_uri: url_for(action: :callback)
@@ -12,8 +13,8 @@ class GmailCallbacksController < ApplicationController
 
   def callback
     client = Signet::OAuth2::Client.new({
-      client_id: ENV.fetch('GOOGLE_API_CLIENT_ID'),
-      client_secret: ENV.fetch('GOOGLE_API_CLIENT_SECRET'),
+      client_id: ENV.fetch('GOOGLE_API_CLIENT_ID_DEVELOPMENT'),
+      client_secret: ENV.fetch('GOOGLE_API_CLIENT_SECRET_DEVELOPMENT'),
       token_credential_uri: 'https://www.googleapis.com/oauth2/v3/token',
       redirect_uri: url_for(action: :callback),
       code: params[:code]
