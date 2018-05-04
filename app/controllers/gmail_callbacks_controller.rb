@@ -43,13 +43,19 @@ class GmailCallbacksController < ApplicationController
 
   def messages
     token = session[:access_token]
-    query = "from:kakiuchi@itpm-gk.com to:kakiuchis@gmail.com"
+    # query = "from:kakiuchi@itpm-gk.com to:kakiuchis@gmail.com"
+    query = ""
     messages = get_messages(token, query)["messages"]
     
     @bodies = []
-    messages.first(3).each do |message|
-      body = get_message(token, message["id"])["payload"]["parts"][1]["body"]["data"]
-      @bodies.push(clean_body(body))
+    messages.first(20).each do |message|
+      if get_message(token, message["id"])["payload"]["parts"].present?
+        body = get_message(token, message["id"])["payload"]["parts"][1]["body"]["data"]
+        body = clean_body(body)
+      else
+        body = get_message(token, message["id"])["snippet"]
+      end
+      @bodies.push(body)
     end
   end
 end
