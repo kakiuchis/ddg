@@ -37,26 +37,43 @@ class GmailCallbacksController < ApplicationController
     client.code = params[:code]
     response = client.fetch_access_token!
     session[:access_token] = response['access_token']
-    redirect_to url_for(action: :messages)
+    redirect_to url_for(action: :uptake)
   end
 
 
-  def messages
+  def uptake
     token = session[:access_token]
     query = "from:kakiuchi@itpm-gk.com to:kakiuchis@gmail.com"
     messages = get_messages(token, query)["messages"]
     
     @bodies = []
-    messages.first(3).each do |message|
-      if get_message(token, message["id"])["payload"]["parts"].present?
-        body = get_message(token, message["id"])["payload"]["parts"][1]["body"]["data"]
-        body = clean_body(body)
+    @subjects = []
+    messages.first(6).each do |message|
+      message_info = get_message_info(token, message["id"])
+      if message_info["payload"]["parts"].present?
+        body = message_info["payload"]["parts"][1]["body"]["data"]
       else
-        body = get_message(token, message["id"])["snippet"]
+        body = message_info["payload"]["body"]["data"]
       end
-      binding.pry
-      body_en = translate(body)
+      body = clean_body(body)
+      # body_en = translate(body)
+
+      message_info["payload"]["headers"].count.times do |i|
+        if message_info["payload"]["headers"][i]["name"] == "Subject"
+          @subject = message_info["payload"]["headers"][i]["value"]
+          break
+        end
+      end
       @bodies.push(body)
+      @subjects.push(@subject)
+
+      Message.create(
+        message_id: message["id"],
+        user_id: current_user.id,
+        title:  @subject,
+        body:  body,
+        # body_en: body_en,
+        )
     end
   end
 end
