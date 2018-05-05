@@ -44,6 +44,7 @@ module GmailCallbacksHelper
   	request.content_type = "application/json"
   	request.body = JSON.dump({
   	  "q": text,
+      "source": "ja",
   	  "target": "en",
   	  "format": "text",
   	})
