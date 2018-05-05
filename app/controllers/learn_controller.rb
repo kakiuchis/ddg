@@ -20,12 +20,12 @@ class LearnController < ApplicationController
     model_id = req_training["modelId"]
     sleep(330)
 
-    req_training_status = check_training_status(model_id)
-    training_status = req_training_status["status"]
+    @req_training_status = check_training_status(model_id)
+    training_status = @req_training_status["status"]
     while training_status != "SUCCEEDED"
       sleep(60)
-      req_training_status = check_training_status(model_id)
-      training_status = req_training_status["status"]
+      @req_training_status = check_training_status(model_id)
+      training_status = @req_training_status["status"]
     end
 
     text = "I'd like to buy some shoes"
