@@ -33,7 +33,7 @@
 
   <div class="field">
     <%= form.label :label %>
-    <%= form.number_field :label, id: :message_label %>
+    <%= form.select :label, Message.labels.keys.to_a %>
   </div>
 
   <div class="field">

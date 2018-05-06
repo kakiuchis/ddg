@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fileName: MyString
+  datasetId: 1
+  modelId: MyString
+  lavels: 1
+  examples: 1
+  testSplitSize: 1
+  trainSplitSize: 1
+  trainingTime: MyString
+  lastEpochDone: MyString
+  datasetLoadTime: MyString
+  user: one
+
+two:
+  fileName: MyString
+  datasetId: 1
+  modelId: MyString
+  lavels: 1
+  examples: 1
+  testSplitSize: 1
+  trainSplitSize: 1
+  trainingTime: MyString
+  lastEpochDone: MyString
+  datasetLoadTime: MyString
+  user: two
