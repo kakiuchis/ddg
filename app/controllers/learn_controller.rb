@@ -6,7 +6,7 @@ class LearnController < ApplicationController
     filename = current_user.email.gsub(/@.*/, "") + DateTime.now.to_i.to_s + ".csv"
     require 'csv'
     CSV.open("app/data/#{filename}", "w") do |row|
-      Message.user_choice(current_user).all.each do |message|
+      Message.user_choice_top_newer(current_user).all.each do |message|
         row << [ "\'#{message.body_en}\'", message.label ]
       end
     end
