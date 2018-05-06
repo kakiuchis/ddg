@@ -16,4 +16,21 @@ module DetectHelper
 	end
 	JSON.parse(response.body)
   end
+
+  def slack_annnounce(hash, webhook_url)
+  	uri = URI.parse(webhook_url)
+	request = Net::HTTP::Post.new(uri)
+	request.content_type = "application/json"
+	request.body = JSON.dump({
+	  "text": "#{text}"
+	})
+
+	req_options = {
+	  use_ssl: uri.scheme == "https",
+	}
+
+	response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+	  http.request(request)
+	end
+  end
 end

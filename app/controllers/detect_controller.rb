@@ -75,15 +75,18 @@ class DetectController < ApplicationController
         end
         url = "https://mail.google.com/mail/u/0/#all/#{message["id"]}"
         
+        text = "危険度#{danger_probability*100}%\n【件名】#{subjects}\n【本文】#{body}\n#{url}"
+        slack_annnounce(hash, ENV['WEBHOOK_URL'])
+
         @hash[i]["body"] = body
         @hash[i]["bodies_en"] = body_en
-        @hash[i]["danger_probabilities"] = danger_probabilities
+        @hash[i]["danger_probability"] = danger_probability
         @hash[i]["subjects"] = subjects
         @hash[i]["url"] = url
         i = i + 1
       end
     end
 
-    
+
   end
 end
