@@ -10,4 +10,6 @@ Rails.application.routes.draw do
   get '/gmail_callbacks/callback', to: 'gmail_callbacks#callback'
   get '/gmail_callbacks/redirect', to: 'gmail_callbacks#redirect'
   get '/learn/new', to: 'learn#new'
+  post '/messages/safe_to_danger', to: 'messages#safe_to_danger'
+  post '/messages/danger_to_safe', to: 'messages#danger_to_safe'
 end

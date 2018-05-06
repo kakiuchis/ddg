@@ -1,6 +1,7 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_message, only: [:show, :edit, :update, :destroy]
+  respond_to :js
 
   # GET /messages
   # GET /messages.json
@@ -62,14 +63,27 @@ class MessagesController < ApplicationController
     end
   end
 
+  def safe_to_danger
+    @message = Message.find(params[:id])
+    @message.update(label: "danger")
+    respond_with @message
+  end
+
+  def danger_to_safe
+    @message = Message.find(params[:id])
+    @message.update(label: "safe")
+    respond_with @message
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_message
       @message = Message.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+    Never trust parameters from the scary internet, only allow the white list through.
     def message_params
       params.require(:message).permit(:message_id, :title, :body, :body_en, :label, :user_id)
+      # params.require(:message).permit(:label)
     end
 end
