@@ -7,12 +7,16 @@ Rails.application.routes.draw do
 
   root 'dashboad#index'
 
-  get '/gmail_callbacks/uptake', to: 'gmail_callbacks#uptake'
-  get '/gmail_callbacks/callback', to: 'gmail_callbacks#callback'
-  get '/gmail_callbacks/redirect', to: 'gmail_callbacks#redirect'
-
+  get '/gmail_callbacks/redirect'
+  get '/gmail_callbacks/callback'
+  get '/gmail_callbacks/uptake'
+  
   get '/learn/new', to: 'learn#new'
   
-  post '/messages/safe_to_danger', to: 'messages#safe_to_danger'
-  post '/messages/danger_to_safe', to: 'messages#danger_to_safe'
+  post '/messages/safe_to_danger'
+  post '/messages/danger_to_safe'
+
+  get '/detect/redirect'
+  get '/detect/callback'
+  get '/detect/uptake'
 end
