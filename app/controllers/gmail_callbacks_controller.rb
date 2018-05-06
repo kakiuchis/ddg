@@ -56,7 +56,7 @@ class GmailCallbacksController < ApplicationController
         body = message_info["payload"]["body"]["data"]
       end
       body = clean_body(body)
-      # body_en = translate(body)
+      body_en = translate(body)
 
       message_info["payload"]["headers"].count.times do |i|
         if message_info["payload"]["headers"][i]["name"] == "Subject"
@@ -72,8 +72,8 @@ class GmailCallbacksController < ApplicationController
         user_id: current_user.id,
         title:  @subject,
         body:  body,
-        # body_en: body_en,
-        )
+        body_en: body_en,
+      )
     end
   end
 end

@@ -38,22 +38,23 @@ module GmailCallbacksHelper
   end
 
   def translate(text)
-  	uri = URI.parse("https://translation.googleapis.com/language/translate/v2/")
-	  request = Net::HTTP::Post.new(uri)
-	  request["Authorization"] = "Bearer #{ENV['GOOGLE_TRANSLATE_ACCESS_TOKEN_DEVELOPMENT']}"
-  	request.content_type = "application/json"
-  	request.body = JSON.dump({
-  	  "q": text,
+    uri = URI.parse("https://gateway.watsonplatform.net/language-translator/api/v2/translate")
+    request = Net::HTTP::Post.new(uri)
+    request.basic_auth(ENV['WATSON_TRANSLATE_USERNAME'], ENV['WATSON_TRANSLATE_PASSWORD'])
+    request["Accept"] = "application/json"
+    request.body = JSON.dump({
+      "text": text,
       "source": "ja",
-  	  "target": "en",
-  	  "format": "text",
-  	})
-  	req_options = {
-  	  use_ssl: uri.scheme == "https",
-  	}
-  	response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-  	  http.request(request)
-  	end
-  	JSON.parse(response.body)["data"]["translations"][0]["translatedText"]
+      "target": "en"
+    })
+
+    req_options = {
+      use_ssl: uri.scheme == "https",
+    }
+
+    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+      http.request(request)
+    end
+  	JSON.parse(response.body)["translations"][0]["translation"]
   end
 end
