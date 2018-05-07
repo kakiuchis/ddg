@@ -1,2 +1,11 @@
 <h1>Dashboad#index</h1>
 <p>Find me in app/views/dashboad/index.html.erb</p>
+
+
+<li><%= link_to 'メール取込', gmail_callbacks_redirect_path if user_signed_in? %></li>
+<li><%= link_to 'メールデータ', messages_path if user_signed_in? %></li>
+<li><%= link_to '学習', learn_new_path if user_signed_in? %></li>
+<li><%= link_to '学習履歴', learn_index_path if user_signed_in? %></li>
+<li><%= link_to 'detect', detect_redirect_path if user_signed_in? %></li>
+
+

@@ -11,7 +11,8 @@ Rails.application.routes.draw do
   get '/gmail_callbacks/callback'
   get '/gmail_callbacks/uptake'
   
-  get '/learn/new', to: 'learn#new'
+  get '/learn/index'
+  get '/learn/new'
   
   post '/messages/safe_to_danger'
   post '/messages/danger_to_safe'

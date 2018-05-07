@@ -1,0 +1,33 @@
+<table>
+  <thead>
+    <tr>
+      <th>fileName</th>
+      <th>datasetId</th>
+      <th>modelId</th>
+      <th>lavels</th>
+      <th>examples</th>
+      <th>testSplitSize</th>
+      <th>trainSplitSize</th>
+      <th>trainingTime</th>
+      <th>lastEpochDone</th>
+      <th>datasetLoadTime</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @learns.each do |learn| %>
+      <tr>
+        <td><%= learn.fileName %></td>
+        <td><%= learn.datasetId %></td>
+        <td><%= learn.modelId %></td>
+        <td><%= learn.lavels %></td>
+        <td><%= learn.examples %></td>
+        <td><%= learn.testSplitSize %></td>
+        <td><%= learn.trainSplitSize %></td>
+        <td><%= learn.trainingTime %></td>
+        <td><%= learn.lastEpochDone %></td>
+        <td><%= learn.datasetLoadTime %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
