@@ -12,12 +12,12 @@ Rails.application.routes.draw do
   get '/gmail_callbacks/uptake'
   
   get '/learn/index'
-  get '/learn/new'
+  post '/learn/new'
   
   post '/messages/safe_to_danger'
   post '/messages/danger_to_safe'
 
-  get '/detect/redirect'
+  post '/detect/redirect'
   get '/detect/callback'
   get '/detect/uptake'
 end

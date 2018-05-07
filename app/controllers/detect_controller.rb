@@ -4,6 +4,7 @@ class DetectController < ApplicationController
   include DetectHelper
 
   def redirect
+    session[:einstein_token] = params["einstein_token"]
     if Rails.env.production?
       client = Signet::OAuth2::Client.new(
         client_id: ENV['GOOGLE_API_CLIENT_ID_PRODUCTION'],
@@ -42,9 +43,10 @@ class DetectController < ApplicationController
   end
 
   def uptake
-    token = session[:access_token]
+    google_token = session[:access_token]
+    einstein_token = session[:einstein_token]
     query = "from:kakiuchi@itpm-gk.com to:kakiuchis@gmail.com newer_than:4h"
-    messages = get_messages(token, query)["messages"]
+    messages = get_messages(google_token, query)["messages"]
     model_id = Learn.user_choice_one_newer(current_user).modelId
     
     @analysises = []
@@ -52,7 +54,7 @@ class DetectController < ApplicationController
     i = 0
 
     messages.reverse.each do |message|
-      message_info = get_message_info(token, message["id"])
+      message_info = get_message_info(google_token, message["id"])
       if message_info["payload"]["parts"].present?
         body = message_info["payload"]["parts"][1]["body"]["data"]
       else
@@ -62,7 +64,7 @@ class DetectController < ApplicationController
       body = clean_body(body)
       body_en = translate(body)
 
-      analysis = analysis(model_id, body_en)
+      analysis = analysis(einstein_token, model_id, body_en)
       @analysises.push(analysis)
 
       if analysis["probabilities"][0]["label"] == "danger"

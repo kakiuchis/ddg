@@ -6,6 +6,8 @@ class LearnController < ApplicationController
   end
 
   def new
+    token = params["einstein_token"]
+
     ## output csv
     filename = current_user.email.gsub(/@.*/, "") + DateTime.now.to_i.to_s + ".csv"
     require 'csv'
@@ -19,32 +21,30 @@ class LearnController < ApplicationController
     end
     
     ## datasets upload
-    req_datasets_upload = datasets_upload(filename)
+    req_datasets_upload = datasets_upload(token, filename)
     dataset_id = req_datasets_upload["id"]
     sleep(30)
     
     ## dataset upload status check
-    req_dataset_upload_status = check_upload_status(dataset_id)
+    req_dataset_upload_status = check_upload_status(token, dataset_id)
     dataset_statusMsg = req_dataset_upload_status["statusMsg"]
-    binding.pry
     while dataset_statusMsg != "SUCCEEDED"
       sleep(10)
-      req_dataset_upload_status = check_upload_status(dataset_id)
+      req_dataset_upload_status = check_upload_status(token, dataset_id)
       dataset_statusMsg = req_dataset_upload_status["statusMsg"]
     end
 
     ## training
-    req_training = training(dataset_id)
+    req_training = training(token, dataset_id)
     model_id = req_training["modelId"]
-    sleep(330)
+    sleep(30)
 
     ## trainig status check
-    @req_training_status = check_training_status(model_id)
+    @req_training_status = check_training_status(token, model_id)
     training_status = @req_training_status["status"]
-    binding.pry
     while training_status != "SUCCEEDED"
-      sleep(60)
-      @req_training_status = check_training_status(model_id)
+      sleep(30)
+      @req_training_status = check_training_status(token, model_id)
       training_status = @req_training_status["status"]
     end
 
@@ -63,8 +63,8 @@ class LearnController < ApplicationController
       user_id: current_user.id,
     )
 
-    ## test model
+    # ## test model
     # text = "I'd like to buy some shoes"
-    # @result = test_model(model_id, text)
+    # @result = test_model(token, model_id, text)
   end
 end

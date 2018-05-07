@@ -1,9 +1,9 @@
 module LearnHelper
-  def datasets_upload(filename)
+  def datasets_upload(token, filename)
   	uri = URI.parse("https://api.einstein.ai/v2/language/datasets/upload")
 	request = Net::HTTP::Post.new(uri)
 	request.content_type = "multipart/form-data"
-	request["Authorization"] = "Bearer #{ENV['EINSTEIN_TOKEN']}"
+	request["Authorization"] = "Bearer #{token}"
 	request["Cache-Control"] = "no-cache"
 	req_options = { use_ssl: uri.scheme == "https"}
 	response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
@@ -19,10 +19,10 @@ module LearnHelper
 	JSON.parse(response.body)
   end
 
-  def check_upload_status(dataset_id)
+  def check_upload_status(token, dataset_id)
   	uri = URI.parse("https://api.einstein.ai/v2/language/datasets/#{dataset_id}")
 	request = Net::HTTP::Get.new(uri)
-	request["Authorization"] = "Bearer #{ENV['EINSTEIN_TOKEN']}"
+	request["Authorization"] = "Bearer #{token}"
 	request["Cache-Control"] = "no-cache"
 	req_options = { use_ssl: uri.scheme == "https"}
 	response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
@@ -31,11 +31,11 @@ module LearnHelper
 	JSON.parse(response.body)
   end
 
-  def training(dataset_id)
+  def training(token, dataset_id)
 	uri = URI.parse("https://api.einstein.ai/v2/language/train")
 	request = Net::HTTP::Post.new(uri)
 	request.content_type = "multipart/form-data"
-	request["Authorization"] = "Bearer #{ENV['EINSTEIN_TOKEN']}"
+	request["Authorization"] = "Bearer #{token}"
 	request["Cache-Control"] = "no-cache"
 	data = [
       ["name", "Service Request Routing Model"],
@@ -49,10 +49,10 @@ module LearnHelper
 	JSON.parse(response.body)
   end
 
-  def check_training_status(model_id)
+  def check_training_status(token, model_id)
   	uri = URI.parse("https://api.einstein.ai/v2/language/train/#{model_id}")
 	request = Net::HTTP::Get.new(uri)
-	request["Authorization"] = "Bearer #{ENV['EINSTEIN_TOKEN']}"
+	request["Authorization"] = "Bearer #{token}"
 	request["Cache-Control"] = "no-cache"
     req_options = { use_ssl: uri.scheme == "https"}
 	response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
@@ -61,11 +61,11 @@ module LearnHelper
 	JSON.parse(response.body)
   end
 
-  def test_model(model_id, text)
+  def test_model(token, model_id, text)
   	uri = URI.parse("https://api.einstein.ai/v2/language/intent")
 	request = Net::HTTP::Post.new(uri)
 	request.content_type = "multipart/form-data"
-	request["Authorization"] = "Bearer #{ENV['EINSTEIN_TOKEN']}"
+	request["Authorization"] = "Bearer #{token}"
 	request["Cache-Control"] = "no-cache"
     data = [
       ["modelId", model_id],

@@ -1,9 +1,9 @@
 module DetectHelper
-  def analysis(model_id, text)
+  def analysis(token, model_id, text)
   	uri = URI.parse("https://api.einstein.ai/v2/language/intent")
 	request = Net::HTTP::Post.new(uri)
 	request.content_type = "multipart/form-data"
-	request["Authorization"] = "Bearer #{ENV['EINSTEIN_TOKEN']}"
+	request["Authorization"] = "Bearer #{token}"
 	request["Cache-Control"] = "no-cache"
     data = [
       ["modelId", model_id],
