@@ -66,29 +66,32 @@ class DetectController < ApplicationController
 
       analysis = analysis(einstein_token, model_id, body_en)
       @analysises.push(analysis)
-
       if analysis["probabilities"][0]["label"] == "danger"
       	danger_probability = analysis["probabilities"][0]["probability"]
         message_info["payload"]["headers"].count.times do |i|
+          if message_info["payload"]["headers"][i]["name"] == "Date"
+            @date = message_info["payload"]["headers"][i]["value"]
+            break
+          end
           if message_info["payload"]["headers"][i]["name"] == "Subject"
-            subject = message_info["payload"]["headers"][i]["value"]
+            @subject = message_info["payload"]["headers"][i]["value"]
             break
           end
         end
         url = "https://mail.google.com/mail/u/0/#all/#{message["id"]}"
         
-        text = "危険度#{danger_probability*100}%\n【件名】#{subjects}\n【本文】#{body}\n#{url}"
-        slack_annnounce(hash, ENV['WEBHOOK_URL'])
+        text = "危険度#{danger_probability*100}%\n【日時】#{@date}\n【件名】#{@subject}\n【本文】#{body}\n#{url}"
+        slack_annnounce(text, ENV['WEBHOOK_URL'])
 
         @hash[i]["body"] = body
         @hash[i]["bodies_en"] = body_en
         @hash[i]["danger_probability"] = danger_probability
-        @hash[i]["subjects"] = subjects
+        @hash[i]["date"] = @date
+        @hash[i]["subjects"] = @subject
         @hash[i]["url"] = url
+        @hash[i]["text"] = text
         i = i + 1
       end
     end
-
-
   end
 end

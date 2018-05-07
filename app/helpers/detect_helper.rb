@@ -17,7 +17,7 @@ module DetectHelper
 	JSON.parse(response.body)
   end
 
-  def slack_annnounce(hash, webhook_url)
+  def slack_annnounce(text, webhook_url)
   	uri = URI.parse(webhook_url)
 	request = Net::HTTP::Post.new(uri)
 	request.content_type = "application/json"
