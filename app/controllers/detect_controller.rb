@@ -52,7 +52,8 @@ class DetectController < ApplicationController
     @analysises = []
     @hash = Hash.new { |h,k| h[k] = {} }
     i = 0
-
+    binding.pry
+    messages = [] if messages == nil
     messages.reverse.each do |message|
       message_info = get_message_info(google_token, message["id"])
       if message_info["payload"]["parts"].present?
@@ -92,6 +93,10 @@ class DetectController < ApplicationController
         @hash[i]["text"] = text
         i = i + 1
       end
+    end
+    if i = 0
+      text = "危険なメールはなかったよ！セーフ！"
+      slack_annnounce(text, ENV['WEBHOOK_URL'])
     end
   end
 end

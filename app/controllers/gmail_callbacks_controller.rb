@@ -48,6 +48,7 @@ class GmailCallbacksController < ApplicationController
     
     @bodies = []
     @subjects = []
+    messages = [] if messages == nil
     messages.first(6).reverse.each do |message|
       message_info = get_message_info(token, message["id"])
       if message_info["payload"]["parts"].present?
