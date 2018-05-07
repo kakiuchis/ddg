@@ -35,7 +35,9 @@ module GmailCallbacksHelper
     body = body.gsub(/<div class=\"gmail_signature\">.*/, " ")
     body = body.gsub(/<div class=\"gmail_signature\" data-smartmail=\"gmail_signature\">.*/, " ")
     body = body.gsub(/<div class=\"m_\d+gmail_signature\" data-smartmail=\"gmail_signature\">.*/, " ")
-    ActionController::Base.helpers.strip_tags(body).strip
+    body = ActionController::Base.helpers.strip_tags(body).strip
+    body = " " if body.blank?
+    body
   end
 
   def translate(text)

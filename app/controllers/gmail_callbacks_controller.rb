@@ -43,7 +43,7 @@ class GmailCallbacksController < ApplicationController
 
   def uptake
     token = session[:access_token]
-    query = "from:kakiuchi@itpm-gk.com to:kakiuchis@gmail.com"
+    query = "from:#{current_user.boss_email} to:#{current_user.email}"
     messages = get_messages(token, query)["messages"]
     
     @bodies = []

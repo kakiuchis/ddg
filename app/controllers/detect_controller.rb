@@ -48,14 +48,13 @@ class DetectController < ApplicationController
     google_token = session[:access_token]
     einstein_token = session[:einstein_token]
     newer_than_hour = session[:newer_than_hour]
-    query = "from:kakiuchi@itpm-gk.com to:kakiuchis@gmail.com newer_than:#{newer_than_hour}h"
+    query = "from:#{current_user.boss_email} to:#{current_user.email} newer_than:#{newer_than_hour}h"
     messages = get_messages(google_token, query)["messages"]
     model_id = Learn.user_choice_one_newer(current_user).modelId
     
     @analysises = []
     @hash = Hash.new { |h,k| h[k] = {} }
     i = 0
-    binding.pry
     messages = [] if messages == nil
     messages.reverse.each do |message|
       message_info = get_message_info(google_token, message["id"])
@@ -84,8 +83,8 @@ class DetectController < ApplicationController
         end
         url = "https://mail.google.com/mail/u/0/#all/#{message["id"]}"
         
-        text = "危険度#{danger_probability*100}%\n【日時】#{@date}\n【件名】#{@subject}\n【本文】#{body}\n#{url}"
-        slack_annnounce(text, ENV['WEBHOOK_URL'])
+        text = "★★★危険度#{danger_probability*100}%★★★\n【日時】#{@date}\n【件名】#{@subject}\n【本文】#{body}\n#{url}"
+        slack_annnounce(text, current_user.slack_url)
 
         @hash[i]["body"] = body
         @hash[i]["bodies_en"] = body_en
@@ -97,9 +96,9 @@ class DetectController < ApplicationController
         i = i + 1
       end
     end
-    if i = 0
+    if i == 0
       text = "危険なメールはなかったよ！セーフ！"
-      slack_annnounce(text, ENV['WEBHOOK_URL'])
+      slack_annnounce(text, current_user.slack_url)
     end
   end
 end
