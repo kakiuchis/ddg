@@ -10,7 +10,7 @@
 <li>
   <%= form_tag learn_new_path, method: "post" do |f| %>
     <%= submit_tag '学習' %>
-    <%= text_field_tag :einstein_token %>
+    Einstein Token: <%= text_field_tag :einstein_token %>
   <% end %>
 </li>
 
@@ -20,7 +20,8 @@
 <li>
   <%= form_tag detect_redirect_path, method: "post" do |f| %>
     <%= submit_tag 'detect' %>
-    <%= text_field_tag :einstein_token %>
+    Einstein Token: <%= text_field_tag :einstein_token %>
+    過去何時間？: <%= number_field_tag :newer_than_hour %>
   <% end %>
 </li>
 

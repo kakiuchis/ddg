@@ -5,6 +5,8 @@ class DetectController < ApplicationController
 
   def redirect
     session[:einstein_token] = params["einstein_token"]
+    session[:newer_than_hour] = params["newer_than_hour"]
+
     if Rails.env.production?
       client = Signet::OAuth2::Client.new(
         client_id: ENV['GOOGLE_API_CLIENT_ID_PRODUCTION'],
@@ -45,7 +47,8 @@ class DetectController < ApplicationController
   def uptake
     google_token = session[:access_token]
     einstein_token = session[:einstein_token]
-    query = "from:kakiuchi@itpm-gk.com to:kakiuchis@gmail.com newer_than:4h"
+    newer_than_hour = session[:newer_than_hour]
+    query = "from:kakiuchi@itpm-gk.com to:kakiuchis@gmail.com newer_than:#{newer_than_hour}h"
     messages = get_messages(google_token, query)["messages"]
     model_id = Learn.user_choice_one_newer(current_user).modelId
     
