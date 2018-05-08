@@ -48,15 +48,18 @@ class GmailCallbacksController < ApplicationController
     token = session[:access_token]
     after_date = session[:after_date]
     query = "from:#{current_user.boss_email} to:#{current_user.email} after:#{after_date}"
-    messages = get_messages(token, query)["messages"]
-    
-    @bodies = []
-    @subjects = []
-    messages = [] if messages == nil
     i = 0
+    
+    ## get messages
+    messages = get_messages(token, query)["messages"]
+    messages = [] if messages == nil
+    
     messages.reverse.each do |message|
+      ## remove overlap
       unless Message.pluck(:message_id).include?(message["id"])
         message_info = get_message_info(token, message["id"])
+
+        ## get body
         if message_info["payload"]["parts"].present?
           body = message_info["payload"]["parts"][1]["body"]["data"]
         else
@@ -64,7 +67,8 @@ class GmailCallbacksController < ApplicationController
         end
         body = clean_body(body)
         body_en = translate(body)
-
+        
+        ## get receive_time and subject
         message_info["payload"]["headers"].count.times do |i|
           if message_info["payload"]["headers"][i]["name"] == "Date"
             @date = message_info["payload"]["headers"][i]["value"]
@@ -73,9 +77,8 @@ class GmailCallbacksController < ApplicationController
             @subject = message_info["payload"]["headers"][i]["value"]
           end
         end
-        @bodies.push(body)
-        @subjects.push(@subject)
-
+        
+        ## save message
         Message.create(
           message_id: message["id"],
           user_id: current_user.id,
@@ -85,6 +88,8 @@ class GmailCallbacksController < ApplicationController
           body_en: body_en,
           uptake_time: uptake_time,
         )
+
+        ## count save
         i = i + 1
       end
     end
