@@ -103,5 +103,6 @@ class DetectController < ApplicationController
       text = "危険なメールはなかったよ！セーフ！"
       slack_annnounce(text, current_user.slack_url)
     end
+    redirect_to root_path, notice: "Slackへの通知が完了しました。"
   end
 end
