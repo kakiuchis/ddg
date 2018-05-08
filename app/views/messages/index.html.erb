@@ -1,18 +1,15 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Messages</h1>
-<%= link_to 'Destroy All', messages_path, method: :delete, data: { confirm: 'Are you sure?' } %>
+<%= link_to '全消去', messages_path, method: :delete, data: { confirm: '本当に大丈夫ですか？' } %>
 
 <table>
   <thead>
     <tr>
-      <th>Message</th>
-      <th>Title</th>
-      <th>Body</th>
-      <th>Body en</th>
-      <th>Label</th>
-      <th>User</th>
-      <th colspan="3"></th>
+      <th colspan="2"></th>
+      <th>受信</th>
+      <th>件名</th>
+      <th>本文</th>
+      <th>本文（英）</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -20,20 +17,14 @@
     <% @messages.each do |message| %>
       <tr>
         <td><%= p "NEW" if Time.now - message.uptake_time < 86400 %></td>
+        <td><%= render 'label_button', message: message %></td>
+        <td><%= message.date %></td>
         <td><%= message.title %></td>
         <td><%= message.body %></td>
         <td><%= message.body_en %></td>
-        <td><%= render 'label_button', message: message %></td>
-        <td><%= message.label %></td>
-        <td><%= message.user %></td>
-        <td><%= link_to 'Show', message %></td>
         <td><%= link_to 'Edit', edit_message_path(message) %></td>
-        <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: '本当に大丈夫ですか？' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Message', new_message_path %>

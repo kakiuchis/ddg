@@ -12,33 +12,12 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :message_id %>
-    <%= form.text_field :message_id, id: :message_message_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title, id: :message_title %>
-  </div>
-
-  <div class="field">
-    <%= form.label :body %>
-    <%= form.text_area :body, id: :message_body %>
+    <%= message.body %>
   </div>
 
   <div class="field">
     <%= form.label :body_en %>
     <%= form.text_area :body_en, id: :message_body_en %>
-  </div>
-
-  <div class="field">
-    <%= form.label :label %>
-    <%= form.select :label, Message.labels.keys.to_a %>
-  </div>
-
-  <div class="field">
-    <%= form.label :user_id %>
-    <%= form.text_field :user_id, id: :message_user_id %>
   </div>
 
   <div class="actions">
