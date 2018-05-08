@@ -67,4 +67,9 @@ class LearnController < ApplicationController
     # text = "I'd like to buy some shoes"
     # @result = test_model(token, model_id, text)
   end
+
+  def destroy_all
+    Learn.destroy_all
+    redirect_to learn_index_path
+  end
 end

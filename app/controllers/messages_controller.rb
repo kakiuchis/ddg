@@ -63,6 +63,11 @@ class MessagesController < ApplicationController
     end
   end
 
+  def destroy_all
+    Message.destroy_all
+    redirect_to messages_path
+  end
+
   def safe_to_danger
     @message = Message.find(params[:id])
     @message.update(label: "danger")

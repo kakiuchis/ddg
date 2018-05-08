@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :messages
+  
   devise_for :users, controllers: {
     omniauth_callbacks: "users/omniauth_callbacks"
   }
@@ -10,12 +10,15 @@ Rails.application.routes.draw do
   post '/gmail_callbacks/redirect'
   get '/gmail_callbacks/callback'
   get '/gmail_callbacks/uptake'
+
+  resources :messages
+  post '/messages/safe_to_danger'
+  post '/messages/danger_to_safe'
+  delete :messages, to: 'messages#destroy_all'
   
   get '/learn/index'
   post '/learn/new'
-  
-  post '/messages/safe_to_danger'
-  post '/messages/danger_to_safe'
+  delete :learn, to: 'learn#destroy_all'
 
   post '/detect/redirect'
   get '/detect/callback'
