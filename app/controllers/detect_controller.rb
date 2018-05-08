@@ -49,28 +49,36 @@ class DetectController < ApplicationController
     einstein_token = session[:einstein_token]
     newer_than_hour = session[:newer_than_hour]
     query = "from:#{current_user.boss_email} to:#{current_user.email} newer_than:#{newer_than_hour}h"
-    messages = get_messages(google_token, query)["messages"]
     model_id = Learn.user_choice_one_newer(current_user).modelId
-    
     @analysises = []
-    @hash = Hash.new { |h,k| h[k] = {} }
     i = 0
+    
+    ## get messages
+    messages = get_messages(google_token, query)["messages"]
     messages = [] if messages == nil
+    
     messages.reverse.each do |message|
       message_info = get_message_info(google_token, message["id"])
+
+      ## get body
       if message_info["payload"]["parts"].present?
         body = message_info["payload"]["parts"][1]["body"]["data"]
       else
         body = message_info["payload"]["body"]["data"]
       end
-
       body = clean_body(body)
       body_en = translate(body)
-
+      
+      ## get analysis
       analysis = analysis(einstein_token, model_id, body_en)
       @analysises.push(analysis)
+
+      ## if danger
       if analysis["probabilities"][0]["label"] == "danger"
+        ## get danger_probability
       	danger_probability = analysis["probabilities"][0]["probability"]
+
+        ## get receive_time and subject
         message_info["payload"]["headers"].count.times do |i|
           if message_info["payload"]["headers"][i]["name"] == "Date"
             @date = message_info["payload"]["headers"][i]["value"]
@@ -79,18 +87,15 @@ class DetectController < ApplicationController
             @subject = message_info["payload"]["headers"][i]["value"]
           end
         end
+
+        ## get url
         url = "https://mail.google.com/mail/u/0/#all/#{message["id"]}"
         
+        ## announce slack
         text = "★★★危険度#{danger_probability*100}%★★★\n【日時】#{@date}\n【件名】#{@subject}\n【本文】#{body}\n#{url}"
         slack_annnounce(text, current_user.slack_url)
-
-        @hash[i]["body"] = body
-        @hash[i]["bodies_en"] = body_en
-        @hash[i]["danger_probability"] = danger_probability
-        @hash[i]["date"] = @date
-        @hash[i]["subjects"] = @subject
-        @hash[i]["url"] = url
-        @hash[i]["text"] = text
+        
+        ## count danger
         i = i + 1
       end
     end

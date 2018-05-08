@@ -1,6 +1,7 @@
 <h1>Detect#uptale</h1>
 <p>Find me in app/views/detect/uptake.html.erb</p>
 
-<%= @analysises %>
-<%= @hash %>
+<% @analysises.each do |analysis| %>
+  <li><%= analysis %></li>
+<% end %>
 
