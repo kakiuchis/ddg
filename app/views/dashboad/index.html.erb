@@ -2,13 +2,18 @@
 <p>Find me in app/views/dashboad/index.html.erb</p>
 
 
-<li><%= link_to 'メール取込', gmail_callbacks_redirect_path %></li>
+<li>
+  <%= form_tag gmail_callbacks_redirect_path do |f| %>
+    <%= submit_tag 'メール取込' %>
+    いつ以降？: <%= date_field_tag :after_date %>
+  <% end %>
+</li>
 
 
 <li><%= link_to 'メールデータ', messages_path %></li>
 
 <li>
-  <%= form_tag learn_new_path, method: "post" do |f| %>
+  <%= form_tag learn_new_path do |f| %>
     <%= submit_tag '学習' %>
     Einstein Token: <%= text_field_tag :einstein_token %>
   <% end %>
@@ -18,7 +23,7 @@
 <li><%= link_to '学習履歴', learn_index_path %></li>
 
 <li>
-  <%= form_tag detect_redirect_path, method: "post" do |f| %>
+  <%= form_tag detect_redirect_path do |f| %>
     <%= submit_tag 'detect' %>
     Einstein Token: <%= text_field_tag :einstein_token %>
     過去何時間？: <%= number_field_tag :newer_than_hour %>

@@ -27,7 +27,6 @@ module GmailCallbacksHelper
 
   def clean_body(body)
     body = Base64.urlsafe_decode64(body)
-    body = body.gsub(",", " ")
     body = body.gsub(/\r\n|\r|\n/, " ")
     body = body.gsub(/<div dir=\"auto\">|<br>/, " ")
     body = body.gsub(/<div data-smartmail=\"gmail_signature\" dir=\"auto\">.*/, " ")

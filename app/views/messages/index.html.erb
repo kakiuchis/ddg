@@ -18,7 +18,7 @@
   <tbody>
     <% @messages.each do |message| %>
       <tr>
-        <td><%= message.message_id %></td>
+        <td><%= p "NEW" if Time.now - message.uptake_time < 86400 %></td>
         <td><%= message.title %></td>
         <td><%= message.body %></td>
         <td><%= message.body_en %></td>

@@ -74,11 +74,9 @@ class DetectController < ApplicationController
         message_info["payload"]["headers"].count.times do |i|
           if message_info["payload"]["headers"][i]["name"] == "Date"
             @date = message_info["payload"]["headers"][i]["value"]
-            break
           end
           if message_info["payload"]["headers"][i]["name"] == "Subject"
             @subject = message_info["payload"]["headers"][i]["value"]
-            break
           end
         end
         url = "https://mail.google.com/mail/u/0/#all/#{message["id"]}"

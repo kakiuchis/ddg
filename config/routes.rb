@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   root 'dashboad#index'
 
-  get '/gmail_callbacks/redirect'
+  post '/gmail_callbacks/redirect'
   get '/gmail_callbacks/callback'
   get '/gmail_callbacks/uptake'
   

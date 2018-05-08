@@ -3,6 +3,8 @@ class GmailCallbacksController < ApplicationController
   include GmailCallbacksHelper
 
   def redirect
+    session[:after_date] = params["after_date"]
+
     if Rails.env.production?
       client = Signet::OAuth2::Client.new(
         client_id: ENV['GOOGLE_API_CLIENT_ID_PRODUCTION'],
@@ -42,39 +44,50 @@ class GmailCallbacksController < ApplicationController
 
 
   def uptake
+    uptake_time = Time.now
     token = session[:access_token]
-    query = "from:#{current_user.boss_email} to:#{current_user.email}"
+    after_date = session[:after_date]
+    query = "from:#{current_user.boss_email} to:#{current_user.email} after:#{after_date}"
     messages = get_messages(token, query)["messages"]
     
     @bodies = []
     @subjects = []
     messages = [] if messages == nil
-    messages.first(6).reverse.each do |message|
-      message_info = get_message_info(token, message["id"])
-      if message_info["payload"]["parts"].present?
-        body = message_info["payload"]["parts"][1]["body"]["data"]
-      else
-        body = message_info["payload"]["body"]["data"]
-      end
-      body = clean_body(body)
-      body_en = translate(body)
-
-      message_info["payload"]["headers"].count.times do |i|
-        if message_info["payload"]["headers"][i]["name"] == "Subject"
-          @subject = message_info["payload"]["headers"][i]["value"]
-          break
+    i = 0
+    messages.reverse.each do |message|
+      unless Message.pluck(:message_id).include?(message["id"])
+        message_info = get_message_info(token, message["id"])
+        if message_info["payload"]["parts"].present?
+          body = message_info["payload"]["parts"][1]["body"]["data"]
+        else
+          body = message_info["payload"]["body"]["data"]
         end
-      end
-      @bodies.push(body)
-      @subjects.push(@subject)
+        body = clean_body(body)
+        body_en = translate(body)
 
-      Message.create(
-        message_id: message["id"],
-        user_id: current_user.id,
-        title:  @subject,
-        body:  body,
-        body_en: body_en,
-      )
+        message_info["payload"]["headers"].count.times do |i|
+          if message_info["payload"]["headers"][i]["name"] == "Date"
+            @date = message_info["payload"]["headers"][i]["value"]
+          end
+          if message_info["payload"]["headers"][i]["name"] == "Subject"
+            @subject = message_info["payload"]["headers"][i]["value"]
+          end
+        end
+        @bodies.push(body)
+        @subjects.push(@subject)
+
+        Message.create(
+          message_id: message["id"],
+          user_id: current_user.id,
+          date: @date,
+          title:  @subject,
+          body:  body,
+          body_en: body_en,
+          uptake_time: uptake_time,
+        )
+        i = i + 1
+      end
     end
+    redirect_to messages_path, notice: "#{i}個のメールを取り込みました"
   end
 end
