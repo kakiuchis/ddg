@@ -2,7 +2,7 @@ class LearnController < ApplicationController
   before_action :authenticate_user!
   include LearnHelper
   def index
-    @learns = Learn.all
+    @learns = Learn.all.reverse
   end
 
   def new
@@ -66,10 +66,16 @@ class LearnController < ApplicationController
     # ## test model
     # text = "I'd like to buy some shoes"
     # @result = test_model(token, model_id, text)
+    redirect_to learn_index_path, notice: "学習が完了しました。"
+  end
+
+  def destroy
+    Learn.find(params[:id]).destroy
+    redirect_to learn_index_path, notice: "学習データを削除しました。"
   end
 
   def destroy_all
-    Learn.destroy_all
-    redirect_to learn_index_path
+    Learn.where(user_id: user.id).destroy_all
+    redirect_to learn_index_path, notice: "学習データをすべて削除しました。"
   end
 end

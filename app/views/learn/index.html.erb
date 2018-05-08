@@ -1,34 +1,31 @@
-<%= link_to 'Destroy All', learn_path, method: :delete, data: { confirm: 'Are you sure?' } %>
 <table>
   <thead>
     <tr>
-      <th>fileName</th>
-      <th>datasetId</th>
-      <th>modelId</th>
-      <th>lavels</th>
-      <th>examples</th>
-      <th>testSplitSize</th>
-      <th>trainSplitSize</th>
-      <th>trainingTime</th>
-      <th>lastEpochDone</th>
-      <th>datasetLoadTime</th>
+      <th>ファイル名</th>
+      <th>データセットID</th>
+      <th>モデルID</th>
+      <th>エポック数</th>
+      <th>ラベル数</th>
+      <th>サンプル数</th>
+      <th>学習時間</th>
+      <th>データロード時間</th>
+      <th colspan="1"></th>
     </tr>
   </thead>
-
   <tbody>
     <% @learns.each do |learn| %>
       <tr>
         <td><%= learn.fileName %></td>
         <td><%= learn.datasetId %></td>
         <td><%= learn.modelId %></td>
-        <td><%= learn.lavels %></td>
-        <td><%= learn.examples %></td>
-        <td><%= learn.testSplitSize %></td>
-        <td><%= learn.trainSplitSize %></td>
-        <td><%= learn.trainingTime %></td>
         <td><%= learn.lastEpochDone %></td>
+        <td><%= learn.lavels %></td>
+        <td><%= learn.examples %>(test:learn = <%= learn.testSplitSize %>:<%= learn.trainSplitSize %>)</td>
+        <td><%= learn.trainingTime %></td>
         <td><%= learn.datasetLoadTime %></td>
+        <td><%= link_to 'Destroy', learn, method: :delete, data: { confirm: '本当に大丈夫ですか？' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<%= link_to 'すべて削除', learn_path, method: :delete, data: { confirm: '本当に大丈夫ですか？' } %>
