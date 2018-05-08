@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   
   get '/learn/index'
   post '/learn/new'
-  delete '/learn/:id', to: 'learn#destroy'
+  resources :learn, only: [:destroy]
   delete :learn, to: 'learn#destroy_all'
 
   post '/detect/redirect'

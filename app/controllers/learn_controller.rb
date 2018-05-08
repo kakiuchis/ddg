@@ -70,12 +70,14 @@ class LearnController < ApplicationController
   end
 
   def destroy
-    Learn.find(params[:id]).destroy
+    binding.pry
+    # Learn.find(params[:id]).destroy
     redirect_to learn_index_path, notice: "学習データを削除しました。"
   end
 
   def destroy_all
-    Learn.where(user_id: user.id).destroy_all
+    binding.pry
+    # Learn.where(user_id: current_user.id).destroy_all
     redirect_to learn_index_path, notice: "学習データをすべて削除しました。"
   end
 end

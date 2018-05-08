@@ -12,21 +12,22 @@ class MessagesController < ApplicationController
 
   def update
     if @message.update(message_params)
-      redirect_to messages_path, notice: 'Message was successfully updated.'
+      redirect_to messages_path, notice: 'メッセージを変更しました。'
     else
       render :edit
     end
   end
 
   def destroy
-    @message.destroy
-    redirect_to messages_path, notice: 'Message was successfully destroyed.'
-    end
+    binding.pry
+    # @message.destroy
+    redirect_to messages_path, notice: 'メッセージを削除しました。'
   end
 
   def destroy_all
-    Message.destroy_all
-    redirect_to messages_path
+    binding.pry
+    # Message.where(user_id: current_user.id).destroy_all
+    redirect_to messages_path, notice: 'メッセージをすべて削除しました。'
   end
 
   def safe_to_danger
