@@ -21,19 +21,19 @@ module GmailCallbacksHelper
   	JSON.parse(response.body)
   end
 
-  def clean_body(body)
-    body = Base64.urlsafe_decode64(body)
-    body = body.gsub(/\r\n|\r|\n/, " ")
-    body = body.gsub(/<div dir=\"auto\">|<br>/, " ")
-    body = body.gsub(/<div data-smartmail=\"gmail_signature\" dir=\"auto\">.*/, " ")
-    body = body.gsub(/<div data-smartmail=\"gmail_signature\">.*/, " ")
-    body = body.gsub(/<div class=\"gmail_signature\">.*/, " ")
-    body = body.gsub(/<div class=\"gmail_signature\" data-smartmail=\"gmail_signature\">.*/, " ")
-    body = body.gsub(/<div class=\"m_\d+gmail_signature\" data-smartmail=\"gmail_signature\">.*/, " ")
-    body = ActionController::Base.helpers.strip_tags(body).strip
-    body = " " if body.blank?
-    body
-  end
+  # def clean_body(body)
+  #   body = Base64.urlsafe_decode64(body)
+  #   body = body.gsub(/\r\n|\r|\n/, " ")
+  #   body = body.gsub(/<div dir=\"auto\">|<br>/, " ")
+  #   body = body.gsub(/<div data-smartmail=\"gmail_signature\" dir=\"auto\">.*/, " ")
+  #   body = body.gsub(/<div data-smartmail=\"gmail_signature\">.*/, " ")
+  #   body = body.gsub(/<div class=\"gmail_signature\">.*/, " ")
+  #   body = body.gsub(/<div class=\"gmail_signature\" data-smartmail=\"gmail_signature\">.*/, " ")
+  #   body = body.gsub(/<div class=\"m_\d+gmail_signature\" data-smartmail=\"gmail_signature\">.*/, " ")
+  #   body = ActionController::Base.helpers.strip_tags(body).strip
+  #   body = " " if body.blank?
+  #   body
+  # end
 
   def translate(text)
     uri = URI.parse("https://gateway.watsonplatform.net/language-translator/api/v2/translate")

@@ -59,14 +59,24 @@ class GmailCallbacksController < ApplicationController
       unless Message.pluck(:message_id).include?(message["id"])
         message_info = get_message_info(token, message["id"])
 
-        ## get body
-        if message_info["payload"]["parts"].present?
-          body = message_info["payload"]["parts"][1]["body"]["data"]
-        else
-          body = message_info["payload"]["body"]["data"]
-        end
-        body = clean_body(body)
-        body_en = translate(body)
+        # ## get body
+        # if message_info["payload"]["parts"][0]["body"]["data"].present?
+        #   body = message_info["payload"]["parts"][0]["body"]["data"]
+        # elsif message_info["payload"]["parts"][1]["body"]["data"].present?
+        #   body = message_info["payload"]["parts"][1]["body"]["data"]
+        # else
+        #   body = message_info["payload"]["body"]["data"]
+        # end
+        # body = clean_body(body)
+        
+        ## get snippet
+        body = message_info["snippet"]
+        
+        # ## translate body
+        # body_en = translate(body)
+
+        ## stop translate
+        body_en = body
         
         ## get receive_time and subject
         message_info["payload"]["headers"].count.times do |i|

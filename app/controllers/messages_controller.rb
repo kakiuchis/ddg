@@ -19,14 +19,12 @@ class MessagesController < ApplicationController
   end
 
   def destroy
-    binding.pry
-    # @message.destroy
+    @message.destroy
     redirect_to messages_path, notice: 'メッセージを削除しました。'
   end
 
   def destroy_all
-    binding.pry
-    # Message.where(user_id: current_user.id).destroy_all
+    Message.where(user_id: current_user.id).destroy_all
     redirect_to messages_path, notice: 'メッセージをすべて削除しました。'
   end
 
