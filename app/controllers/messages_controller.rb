@@ -1,21 +1,10 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_message, only: [:edit, :update, :destroy, :safe_to_danger, :danger_to_safe]
+  before_action :set_message, only: [:destroy, :safe_to_danger, :danger_to_safe]
   respond_to :js
 
   def index
     @messages = Message.user_choice_top_newer(current_user).all
-  end
-
-  def edit
-  end
-
-  def update
-    if @message.update(message_params)
-      redirect_to messages_path, notice: 'メッセージを変更しました。'
-    else
-      render :edit
-    end
   end
 
   def destroy
