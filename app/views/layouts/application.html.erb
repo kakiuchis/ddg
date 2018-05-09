@@ -29,16 +29,16 @@
         </div>
       </div>
     </nav>
+    <% flash.each do |name, msg| %>
+      <div class="alert alert-success" role="alert">
+        <a class="close" data-dismiss="alert">×</a>
+        <%= msg %>
+      </div>
+    <% end %>
   	<div class="container">
-      <div id="notice">
-        <%= flash[:notice] %>
-      </div>
-      <div id="alert">
-        <%= flash[:alert] %>
-      </div>
       <%= yield %>
-      <a href="#" class="topBtn" id="topBtn">TOP</a>
     </div>
+    <a href="#" class="topBtn" id="topBtn">TOP</a>
     <script>
       $(document).ready(function(){
         $("#topBtn").hide();

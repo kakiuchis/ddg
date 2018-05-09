@@ -1,6 +1,7 @@
 <h1>メールデータ</h1>
 <%= link_to '全消去', messages_path, method: :delete, data: { confirm: '本当に大丈夫ですか？' } %>
 
+
 <table>
   <thead>
     <tr>
@@ -22,7 +23,6 @@
         <td><%= message.title %></td>
         <td><%= message.body %></td>
         <td><%= message.body_en %></td>
-        <td><%= link_to 'Edit', edit_message_path(message) %></td>
         <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: '本当に大丈夫ですか？' } %></td>
       </tr>
     <% end %>
