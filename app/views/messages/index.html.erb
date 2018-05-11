@@ -1,30 +1,20 @@
-<h1>メールデータ</h1>
-<%= link_to '全消去', messages_path, method: :delete, data: { confirm: '本当に大丈夫ですか？' } %>
 
-
-<table>
-  <thead>
-    <tr>
-      <th colspan="2"></th>
-      <th>受信</th>
-      <th>件名</th>
-      <th>本文</th>
-      <th>本文（英）</th>
-      <th colspan="2"></th>
-    </tr>
-  </thead>
-
-  <tbody>
+<div class="container">
+  <div class="wrapper col-md-8 col-md-offset-2 col-sm-12">
+    <h2 class="text-center">メールデータ</h2>
+    <h4 class="text-center">～safeかdangerかラベリングしましょう！～</h4>
     <% @messages.each do |message| %>
-      <tr>
-        <td><%= p "NEW" if Time.now - message.uptake_time < 86400 %></td>
-        <td><%= render 'label_button', message: message %></td>
-        <td><%= message.date %></td>
-        <td><%= message.title %></td>
-        <td><%= message.body %></td>
-        <td><%= message.body_en %></td>
-        <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: '本当に大丈夫ですか？' } %></td>
-      </tr>
+      <div class="thumbnail">
+        <div class="caption">
+          <p><%= message.body %></p>
+          <%= render 'label_button', message: message %>
+          <p class="text-right">
+            <%= link_to '', edit_message_path(message), class: "glyphicon glyphicon-pencil" %>
+            <%= link_to '', message, method: :delete, class: "glyphicon glyphicon-trash", data: { confirm: '本当に大丈夫ですか？' } %>
+          </p>
+        </div>
+      </div>
     <% end %>
-  </tbody>
-</table>
+    <p><%= link_to 'メールデータ全消去', messages_path, method: :delete, class: "btn btn-warning btn-xs btn-block", data: { confirm: '本当に大丈夫ですか？' } %></p>
+  </div>
+</div>

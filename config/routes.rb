@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   get '/gmail_callbacks/callback'
   get '/gmail_callbacks/uptake'
 
-  resources :messages
+  resources :messages, only: [:index, :edit, :update, :destroy]
   post '/messages/safe_to_danger'
   post '/messages/danger_to_safe'
   delete :messages, to: 'messages#destroy_all'

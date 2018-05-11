@@ -1,7 +1,7 @@
-<div id="message_<%= message.id %>">
+<p class="text-center" id="message_<%= message.id %>">
   <% if message.label == "safe" %>
-    <%= link_to "safe", messages_safe_to_danger_path(id: message.id), method: :post, remote: true, class: 'btn btn-xs btn-default' %>
+    <%= link_to "s a f e", messages_safe_to_danger_path(id: message.id), method: :post, remote: true, class: 'btn btn-info btn-lg' %>
   <% else %>
-    <%= link_to "danger", messages_danger_to_safe_path(id: message.id), method: :post, remote: true, class: 'btn btn-xs btn-warning' %>
+    <%= link_to "danger", messages_danger_to_safe_path(id: message.id), method: :post, remote: true, class: 'btn btn-danger btn-lg' %>
   <% end %>
-</div>
+</p>
