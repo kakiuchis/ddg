@@ -2,7 +2,7 @@ class LearnController < ApplicationController
   before_action :authenticate_user!
   include LearnHelper
   def index
-    @learns = Learn.all.reverse
+    @learns = Learn.user_choice(current_user).reverse
   end
 
   def new
