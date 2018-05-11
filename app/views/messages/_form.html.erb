@@ -12,15 +12,16 @@
   <% end %>
 
   <div class="field">
+    <h4 class="text-center">日本文</h4>
     <%= message.body %>
   </div>
 
-  <div class="field">
-    <%= form.label :body_en %>
-    <%= form.text_area :body_en, id: :message_body_en %>
+  <div class="form-group">
+    <h4 class="text-center">英文</h4>
+    <%= form.text_area :body_en, id: :message_body_en, class: "form-control", rows: 10 %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "これで英訳", class: "btn btn-info btn-block" %>
   </div>
 <% end %>

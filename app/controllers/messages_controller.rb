@@ -12,7 +12,7 @@ class MessagesController < ApplicationController
 
   def update
     if @message.update(message_params)
-      redirect_to messages_path, notice: 'メッセージを変更しました。'
+      redirect_to messages_path, notice: '英訳を変更しました。'
     else
       render :edit
     end
