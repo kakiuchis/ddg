@@ -75,12 +75,12 @@ class GmailCallbacksController < ApplicationController
           # end
           # body = clean_body(body)
           
-          ## get snippet
-          body = message_info["snippet"]
+          # ## get snippet
+          # body = message_info["snippet"]
           
-          # ## translate body
-          # body_en = "" if body.blank?
-          # body_en = translate(body) if body.present?
+          ## translate body
+          body_en = "" if body.blank?
+          body_en = translate(body) if body.present?
 
           ## stop translate
           body_en = body

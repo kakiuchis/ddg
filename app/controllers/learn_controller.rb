@@ -56,7 +56,7 @@ class LearnController < ApplicationController
       else
         req_training = training(token, dataset_id)
         model_id = req_training["modelId"]
-        sleep(30)
+        sleep(300)
       end
 
       ## trainig status check
@@ -66,7 +66,7 @@ class LearnController < ApplicationController
         @req_training_status = check_training_status(token, model_id)
         training_status = @req_training_status["status"]
         while training_status != "SUCCEEDED"
-          sleep(30)
+          sleep(60)
           if check_token(token) == "invalid"
             redirect_to root_path, notice: "Einstain Tokenが正しくありません。"
           else
