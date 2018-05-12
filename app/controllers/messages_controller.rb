@@ -8,6 +8,9 @@ class MessagesController < ApplicationController
   end
 
   def edit
+    if @message.user_id != current_user.id
+      redirect_to messages_path
+    end
   end
 
   def update
@@ -19,8 +22,12 @@ class MessagesController < ApplicationController
   end
 
   def destroy
-    @message.destroy
-    redirect_to messages_path, notice: 'メッセージを削除しました。'
+    if @message.user_id != current_user.id
+      redirect_to messages_path
+    else
+      @message.destroy
+      redirect_to messages_path, notice: 'メッセージを削除しました。'
+    end
   end
 
   def destroy_all

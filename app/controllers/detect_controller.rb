@@ -96,7 +96,7 @@ class DetectController < ApplicationController
             @analysises.push(analysis)
 
             ## if danger
-            if analysis["probabilities"][0]["label"] == "safe"
+            if analysis["probabilities"][0]["label"] == "danger"
               ## get danger_probability
             	danger_probability = analysis["probabilities"][0]["probability"]
 

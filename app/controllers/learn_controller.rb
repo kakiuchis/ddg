@@ -104,8 +104,12 @@ class LearnController < ApplicationController
   end
 
   def destroy
-    Learn.find(params[:id]).destroy
-    redirect_to learn_index_path, notice: "学習データを削除しました。"
+    if Learn.find(params[:id]).user_id != current_user.id
+      redirect_to learn_index_path
+    else
+      Learn.find(params[:id]).destroy
+      redirect_to learn_index_path, notice: "学習データを削除しました。"
+    end
   end
 
   def destroy_all
