@@ -1,11 +1,14 @@
 <div class="container">
   <div class="col-md-8 col-md-offset-2 col-sm-12">
-    <h2>メールデータ</h2>
+    <h2>BOSSからのメールデータ</h2>
     <h4>～safeかdangerかラベリングしましょう！～</h4>
     <% @messages.each do |message| %>
       <div class="thumbnail">
         <div class="caption">
-          <p><%= message.body %></p>
+          <p class="text-left"><span class="label label-success"><%= new_or_not(message) %></span></p>
+          <p class="text-left">【取込日時】<%= time_format(message.uptake_time) %></p>
+          <p class="text-left">【受信日時】<%= time_format(message.date) %></p>
+          <p class="text-left">【本文】<%= message.body %></p>
           <%= render 'label_button', message: message %>
           <p class="text-right">
             <%= link_to '', edit_message_path(message), class: "glyphicon glyphicon-pencil" %>
