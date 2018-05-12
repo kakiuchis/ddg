@@ -3,23 +3,27 @@ class GmailCallbacksController < ApplicationController
   include GmailCallbacksHelper
 
   def redirect
-    session[:after_date] = params["after_date"]
-
-    if Rails.env.production?
-      client = Signet::OAuth2::Client.new(
-        client_id: ENV['GOOGLE_API_CLIENT_ID_PRODUCTION'],
-        client_secret: ENV['GOOGLE_API_CLIENT_SECRET_PRODUCTION'],
-  	  )
+    if params["after_date"] == ""
+      redirect_to root_path, notice: "取得する過去日数を指定してください。" 
     else
-      client = Signet::OAuth2::Client.new(
-        client_id: ENV['GOOGLE_API_CLIENT_ID_DEVELOPMENT'],
-        client_secret: ENV['GOOGLE_API_CLIENT_SECRET_DEVELOPMENT'],
-      )
+      session[:after_date] = params["after_date"]
+
+      if Rails.env.production?
+        client = Signet::OAuth2::Client.new(
+          client_id: ENV['GOOGLE_API_CLIENT_ID_PRODUCTION'],
+          client_secret: ENV['GOOGLE_API_CLIENT_SECRET_PRODUCTION'],
+    	  )
+      else
+        client = Signet::OAuth2::Client.new(
+          client_id: ENV['GOOGLE_API_CLIENT_ID_DEVELOPMENT'],
+          client_secret: ENV['GOOGLE_API_CLIENT_SECRET_DEVELOPMENT'],
+        )
+      end
+      client.authorization_uri = 'https://accounts.google.com/o/oauth2/auth'
+      client.scope = Google::Apis::GmailV1::AUTH_GMAIL_READONLY
+      client.redirect_uri = url_for(action: :callback)
+  	  redirect_to client.authorization_uri.to_s
     end
-    client.authorization_uri = 'https://accounts.google.com/o/oauth2/auth'
-    client.scope = Google::Apis::GmailV1::AUTH_GMAIL_READONLY
-    client.redirect_uri = url_for(action: :callback)
-	  redirect_to client.authorization_uri.to_s
   end
 
   def callback
@@ -49,6 +53,7 @@ class GmailCallbacksController < ApplicationController
     after_date = session[:after_date]
     query = "from:#{current_user.boss_email} to:#{current_user.email} newer_than:#{after_date}d"
     i = 0
+    max_i = 5
     
     ## get messages
     messages = get_messages(token, query)["messages"]
@@ -103,9 +108,12 @@ class GmailCallbacksController < ApplicationController
 
           ## count save
           i = i + 1
+
+          ## wotson api restriction
+          break if i == max_i
         end
       end
-      redirect_to root_path, notice: "#{i}個のメールを取り込みました" unless i == 0
+      redirect_to root_path, notice: "#{i}件のメールを取り込みました。API無料枠の都合で1度に取得てきるメール数は#{max_i}件に制限されています。" unless i == 0
       redirect_to root_path, notice: "設定したBOSSのメールアドレス、指定した過去日数のメールはすでに取り込まれています。" if i == 0
     end
   end
