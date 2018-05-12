@@ -6,6 +6,6 @@ class Learn < ApplicationRecord
   end
 
   def self.user_choice(user)
-    where(user_id: user.id).order(created_at: :desc).limit(1)[0]
+    where(user_id: user.id)
   end
 end

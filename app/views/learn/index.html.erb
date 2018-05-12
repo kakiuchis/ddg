@@ -1,31 +1,26 @@
-<table>
-  <thead>
-    <tr>
-      <th>ファイル名</th>
-      <th>データセットID</th>
-      <th>モデルID</th>
-      <th>エポック数</th>
-      <th>ラベル数</th>
-      <th>サンプル数</th>
-      <th>学習時間</th>
-      <th>データロード時間</th>
-      <th colspan="1"></th>
-    </tr>
-  </thead>
-  <tbody>
+<div class="container">
+  <div class="col-md-8 col-md-offset-2 col-sm-12">
+    <h2>学習履歴</h2>
+    <p>～学習履歴を解析しよりよいメールデータセットにしましょう！～</p>
     <% @learns.each do |learn| %>
-      <tr>
-        <td><%= learn.fileName %></td>
-        <td><%= learn.datasetId %></td>
-        <td><%= learn.modelId %></td>
-        <td><%= learn.lastEpochDone %></td>
-        <td><%= learn.lavels %></td>
-        <td><%= learn.examples %>(test:learn = <%= learn.testSplitSize %>:<%= learn.trainSplitSize %>)</td>
-        <td><%= learn.trainingTime %></td>
-        <td><%= learn.datasetLoadTime %></td>
-        <td><%= link_to 'Destroy', learn, method: :delete, data: { confirm: '本当に大丈夫ですか？' } %></td>
-      </tr>
+      <div class="thumbnail">
+        <div class="caption">
+          <p class="text-left">【学習日時】<%= time_format(learn.created_at) %></p>
+          <p class="text-left">【データファイル名】<%= learn.fileName %></p>
+          <p class="text-left">【データセットID】<%= learn.datasetId %></p>
+          <p class="text-left">【モデルID】<%= learn.modelId %></p>
+          <p class="text-left">【エポック数】<%= learn.lastEpochDone %></p>
+          <p class="text-left">【ラベル数】<%= learn.lavels %></p>
+          <p class="text-left">【サンプル数】<%= learn.examples %>(test:learn = <%= learn.testSplitSize %>:<%= learn.trainSplitSize %>)</p>
+          <p class="text-left">【学習時間】<%= learn.trainingTime %></p>
+          <p class="text-left">【データロード時間】<%= learn.datasetLoadTime %></p>
+
+          <p class="text-right">
+            <%= link_to '', learn, method: :delete, class: "glyphicon glyphicon-trash", data: { confirm: '本当に大丈夫ですか？' } %>
+          </p>
+        </div>
+      </div>
     <% end %>
-  </tbody>
-</table>
-<%= link_to 'すべて削除', '/learn', method: :delete, data: { confirm: '本当に大丈夫ですか？' } %>
+    <p><%= link_to '学習履歴全消去', '/learn', method: :delete, class: "btn btn-warning btn-xs btn-block", data: { confirm: '本当に大丈夫ですか？' } %></p>
+  </div>
+</div>

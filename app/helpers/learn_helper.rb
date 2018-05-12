@@ -31,6 +31,16 @@ module LearnHelper
 	JSON.parse(response.body)
   end
 
+  def check_token(token)
+  	if check_upload_status(token, 1055400)["message"] == "Invalid access token"
+  	  p "invalid"
+  	elsif check_upload_status(token, 1055400)["message"] == "Invalid authentication scheme"
+  	  p "invalid"
+  	else
+  	  p "valid"
+  	end
+  end
+
   def training(token, dataset_id)
 	uri = URI.parse("https://api.einstein.ai/v2/language/train")
 	request = Net::HTTP::Post.new(uri)

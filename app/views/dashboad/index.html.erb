@@ -27,18 +27,26 @@
         <%= link_to 'ラベリング', messages_path, class: "btn-lg btn-info btn" %>
       <% end %>
       
-      <% if lesser_label_count(current_user) > 0 %>
+      <% if lesser_label_count(current_user) > 2 %>
         <hr>
         <h3>5. 学習しましょう</h3>
-        <p>safeデータ<span class="badge"><%= user_message_safe_count(current_user) %></span>件、dangerデータ<span class="badge"><%= user_message_danger_count(current_user) %></span>件のため、<span class="badge"><%= lesser_label_count(current_user) %></span>件づつ取得して学習します。</p>
+        <p>
+          safeデータ<span class="badge"><%= user_message_safe_count(current_user) %></span>件、dangerデータ<span class="badge"><%= user_message_danger_count(current_user) %></span>件のため、<span class="badge"><%= lesser_label_count(current_user) %></span>件づつ取得して学習します。
+          </br>
+          学習は5-30分ほどかかります。
+        </p>
         <%= form_tag learn_new_path do |f| %>
-        　　<p>Einstein Token: <%= text_field_tag :einstein_token %></p>
+        　　<p>
+            Einstein Token: <%= text_field_tag :einstein_token %>
+            </br>
+            Einstein Tokenの発行は<a href="https://api.einstein.ai/token" target="_blank">https://api.einstein.ai/token</a>
+          </p>
           <%= submit_tag '学　　習', class: "btn-lg btn-info btn" %>
         <% end %>
       <% else %>
         <hr>
         <h3>5. 学習しましょう</h3>
-        <p>少なくともsafeデータとdangerデータがそれぞれ<span class="badge">1</span>件以上ないと学習できません。</p>
+        <p>少なくともsafeデータとdangerデータがそれぞれ<span class="badge">3</span>件以上ないと学習できません。</p>
       <% end %>
 
       <% if user_model_count(current_user) > 0 %>
@@ -51,7 +59,11 @@
         <h3>7. dangerなメールをslackに通知しましょう</h3>
         <%= form_tag detect_redirect_path do |f| %>
         　　<p>過去<%= number_field_tag :newer_than_hour %>何時間のメールからdangerメールを検出します。</p>
-        　　<p>Einstein Token: <%= text_field_tag :einstein_token %></p>
+        　　<p>
+            Einstein Token: <%= text_field_tag :einstein_token %>
+            </br>
+            Einstein Tokenの発行は<a href="https://api.einstein.ai/token" target="_blank">https://api.einstein.ai/token</a>
+          </p>
           <%= submit_tag '検　　出', class: "btn-lg btn-info btn" %>     
         <% end %>
       <% end %>

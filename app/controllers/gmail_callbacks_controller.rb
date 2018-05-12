@@ -53,7 +53,7 @@ class GmailCallbacksController < ApplicationController
     after_date = session[:after_date]
     query = "from:#{current_user.boss_email} to:#{current_user.email} newer_than:#{after_date}d"
     i = 0
-    max_i = 5
+    max_i = 20
     
     ## get messages
     messages = get_messages(token, query)["messages"]
@@ -95,19 +95,21 @@ class GmailCallbacksController < ApplicationController
             end
           end
           
-          ## save message
-          Message.create(
-            message_id: message["id"],
-            user_id: current_user.id,
-            date: @date,
-            title:  @subject,
-            body:  body,
-            body_en: body_en,
-            uptake_time: uptake_time,
-          )
+          if body_en.present?
+            ## save message
+            Message.create(
+              message_id: message["id"],
+              user_id: current_user.id,
+              date: @date,
+              title:  @subject,
+              body:  body,
+              body_en: body_en,
+              uptake_time: uptake_time,
+            )
 
-          ## count save
-          i = i + 1
+            ## count save
+            i = i + 1
+          end
 
           ## wotson api restriction
           break if i == max_i
