@@ -52,57 +52,61 @@ class GmailCallbacksController < ApplicationController
     
     ## get messages
     messages = get_messages(token, query)["messages"]
-    messages = [] if messages == nil
-    
-    messages.reverse.each do |message|
-      ## remove overlap
-      unless Message.pluck(:message_id).include?(message["id"])
-        message_info = get_message_info(token, message["id"])
+    if messages == nil
+      redirect_to root_path, notice: "設定したBOSSのメールアドレス、指定した過去日数ではメールがヒットしませんでした。" 
+    else
+      messages.reverse.each do |message|
+        ## remove overlap
+        unless Message.pluck(:message_id).include?(message["id"])
+          message_info = get_message_info(token, message["id"])
 
-        # ## get body
-        # if message_info["payload"]["parts"][0]["body"]["data"].present?
-        #   body = message_info["payload"]["parts"][0]["body"]["data"]
-        # elsif message_info["payload"]["parts"][1]["body"]["data"].present?
-        #   body = message_info["payload"]["parts"][1]["body"]["data"]
-        # else
-        #   body = message_info["payload"]["body"]["data"]
-        # end
-        # body = clean_body(body)
-        
-        ## get snippet
-        body = message_info["snippet"]
-        
-        # ## translate body
-        # body_en = translate(body)
+          # ## get body
+          # if message_info["payload"]["parts"][0]["body"]["data"].present?
+          #   body = message_info["payload"]["parts"][0]["body"]["data"]
+          # elsif message_info["payload"]["parts"][1]["body"]["data"].present?
+          #   body = message_info["payload"]["parts"][1]["body"]["data"]
+          # else
+          #   body = message_info["payload"]["body"]["data"]
+          # end
+          # body = clean_body(body)
+          
+          ## get snippet
+          body = message_info["snippet"]
+          
+          # ## translate body
+          # body_en = "" if body.blank?
+          # body_en = translate(body) if body.present?
 
-        ## stop translate
-        body_en = body
-        
-        ## get receive_time and subject
-        message_info["payload"]["headers"].count.times do |i|
-          if message_info["payload"]["headers"][i]["name"] == "Date"
-            @date = message_info["payload"]["headers"][i]["value"]
+          ## stop translate
+          body_en = body
+          
+          ## get receive_time and subject
+          message_info["payload"]["headers"].count.times do |i|
+            if message_info["payload"]["headers"][i]["name"] == "Date"
+              @date = message_info["payload"]["headers"][i]["value"]
+            end
+            if message_info["payload"]["headers"][i]["name"] == "Subject"
+              @subject = message_info["payload"]["headers"][i]["value"]
+            end
           end
-          if message_info["payload"]["headers"][i]["name"] == "Subject"
-            @subject = message_info["payload"]["headers"][i]["value"]
-          end
+          
+          ## save message
+          Message.create(
+            message_id: message["id"],
+            user_id: current_user.id,
+            date: @date,
+            title:  @subject,
+            body:  body,
+            body_en: body_en,
+            uptake_time: uptake_time,
+          )
+
+          ## count save
+          i = i + 1
         end
-        
-        ## save message
-        Message.create(
-          message_id: message["id"],
-          user_id: current_user.id,
-          date: @date,
-          title:  @subject,
-          body:  body,
-          body_en: body_en,
-          uptake_time: uptake_time,
-        )
-
-        ## count save
-        i = i + 1
       end
+      redirect_to root_path, notice: "#{i}個のメールを取り込みました" unless i == 0
+      redirect_to root_path, notice: "設定したBOSSのメールアドレス、指定した過去日数のメールはすでに取り込まれています。" if i == 0
     end
-    redirect_to messages_path, notice: "#{i}個のメールを取り込みました"
   end
 end

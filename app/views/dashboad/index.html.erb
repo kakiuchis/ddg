@@ -7,7 +7,7 @@
       
       <% if current_user.boss_email.present? && current_user.slack_url.present? %>
         <hr>
-        <h3>2. 初期設定をテストしましょう</h3>
+        <h3>2. Slacktとの連携テストをしましょう</h3>
         <p>問題なければ、数秒でようこそメールがSlackに通知されます。通知が来なければSlack Incoming Webhook URLが間違っています。</p>
         <%= link_to 'テ　ス　ト', dashboad_test_path, class: "btn-lg btn-info btn" %>
 
@@ -16,7 +16,6 @@
         <p>現在のメールデータ数は<span class="badge"><%= user_message_count(current_user) %></span>件です。</p>
         <%= form_tag gmail_callbacks_redirect_path do |f| %>
           <p>過去<%= number_field_tag :after_date %>何日分のデータを取り込む。</p>
-
           <%= submit_tag 'メール取込', class: "btn-lg btn-info btn" %>
         <% end %>
       <% end %>
