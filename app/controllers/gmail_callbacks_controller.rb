@@ -53,7 +53,7 @@ class GmailCallbacksController < ApplicationController
     after_date = session[:after_date]
     query = "from:#{current_user.boss_email} to:#{current_user.email} newer_than:#{after_date}d"
     i = 0
-    max_i = 5
+    max_i = 45
     
     ## get messages
     messages = get_messages(token, query)["messages"]
