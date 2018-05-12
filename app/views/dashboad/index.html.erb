@@ -54,7 +54,9 @@
         <h3>6. 興味があれば学習履歴を見てみましょう</h3>
         <p>見なくても問題ありません。</p>
         <%= link_to '学習履歴', learn_index_path, class: "btn-lg btn-info btn" %>
+      <% end %>
 
+      <% if user_model_count(current_user) > 0 && current_user.boss_email.present? && current_user.slack_url.present? %>
         <hr>
         <h3>7. dangerなメールをslackに通知しましょう</h3>
         <%= form_tag detect_redirect_path do |f| %>

@@ -95,7 +95,7 @@ class GmailCallbacksController < ApplicationController
             end
           end
           
-          if body_en.present?
+          if body.present?
             ## save message
             Message.create(
               message_id: message["id"],
