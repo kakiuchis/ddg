@@ -47,7 +47,7 @@ class GmailCallbacksController < ApplicationController
     uptake_time = Time.now
     token = session[:access_token]
     after_date = session[:after_date]
-    query = "from:#{current_user.boss_email} to:#{current_user.email} newer_than:#{after_date}"
+    query = "from:#{current_user.boss_email} to:#{current_user.email} newer_than:#{after_date}d"
     i = 0
     
     ## get messages
