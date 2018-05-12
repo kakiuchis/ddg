@@ -53,7 +53,7 @@ class GmailCallbacksController < ApplicationController
     after_date = session[:after_date]
     query = "from:#{current_user.boss_email} to:#{current_user.email} newer_than:#{after_date}d"
     i = 0
-    max_i = 20
+    max_i = 5
     
     ## get messages
     messages = get_messages(token, query)["messages"]
@@ -75,15 +75,15 @@ class GmailCallbacksController < ApplicationController
           # end
           # body = clean_body(body)
           
-          # ## get snippet
-          # body = message_info["snippet"]
+          ## get snippet
+          body = message_info["snippet"]
           
           ## translate body
           body_en = "" if body.blank?
           body_en = translate(body) if body.present?
 
-          ## stop translate
-          body_en = body
+          # ## stop translate
+          # body_en = body
           
           ## get receive_time and subject
           message_info["payload"]["headers"].count.times do |i|
