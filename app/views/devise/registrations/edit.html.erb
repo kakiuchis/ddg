@@ -2,18 +2,18 @@
   <div class="col-sm-6 col-sm-offset-3 col-xs-12">
     <h2>マイページ</h2>
 
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }, class: "") do |f| %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
       <%= devise_error_messages! %>
 
       <div class="form-group">
-        <%= f.label :boss_email, class: "" %>
+        <%= f.label :boss_email %>
         <div class="">
           <%= f.email_field :boss_email, autofocus: true, class: "form-control", autocomplete: "boss_email", placeholder: "yourboss@domain" %>
         </div>
       </div>
 
       <div class="form-group">
-        <%= f.label :slack_url, class: "" %>
+        <%= f.label "Slack Incoming Webhook URL" %>
         <div class="">
           <%= f.url_field :slack_url, autofocus: true, class: "form-control", autocomplete: "slack_url", placeholder: "https://hooks.slack.com/services/XXXXXXXX/XXXXXXXX/xxxxxxxxxxx" %>
         </div>
@@ -44,11 +44,8 @@
         </div>
       <% end %>
 
-      <div class="">
-        <div class="">
-          <%= f.submit "登録する", class: "btn btn-info btn-block" %>
-        </div>
-      </div>
+      <%= f.submit "登録する", class: "btn btn-info btn-block" %>
+
     <% end %>
 
     <hr>

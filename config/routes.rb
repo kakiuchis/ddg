@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   }
 
   root 'dashboad#index'
+  get '/dashboad/test'
 
   post '/gmail_callbacks/redirect'
   get '/gmail_callbacks/callback'

@@ -2,12 +2,17 @@
   <div class="col-md-8 col-md-offset-2 col-sm-12">
     <% if user_signed_in? %>
       <h3>1. 初期設定を行いましょう</h3>
-      <p>マイページで危険な上司のメールアドレスと通知先slackのURLを登録しましょう。</p>
+      <p>マイページでBOSSのメールアドレスと通知先Slack Incoming Webhook URLを登録しましょう。</p>
       <%= link_to 'マイページ', edit_user_registration_path, class: "btn-lg btn-info btn" %>
       
       <% if current_user.boss_email.present? && current_user.slack_url.present? %>
         <hr>
-        <h3>2. メールデータを取り込みましょう</h3>
+        <h3>2. 初期設定をテストしましょう</h3>
+        <p>問題なければ、数秒でようこそメールがSlackに通知されます。通知が来なければSlack Incoming Webhook URLが間違っています。</p>
+        <%= link_to 'テ　ス　ト', dashboad_test_path, class: "btn-lg btn-info btn" %>
+
+        <hr>
+        <h3>3. メールデータを取り込みましょう</h3>
         <p>現在のメールデータ数は<span class="badge"><%= user_message_count(current_user) %></span>件です。</p>
         <%= form_tag gmail_callbacks_redirect_path do |f| %>
           <p>過去<%= number_field_tag :after_date %>何日分のデータを取り込む。</p>
@@ -18,14 +23,14 @@
 
       <% if user_message_count(current_user) > 0 %>
         <hr>
-        <h3>3. メールデータをラベリングしましょう</h3>
+        <h3>4. メールデータをラベリングしましょう</h3>
         <p>safeかdangerか判断しましょう。</p>
         <%= link_to 'ラベリング', messages_path, class: "btn-lg btn-info btn" %>
       <% end %>
       
       <% if lesser_label_count(current_user) > 0 %>
         <hr>
-        <h3>4. 学習しましょう</h3>
+        <h3>5. 学習しましょう</h3>
         <p>safeデータ<span class="badge"><%= user_message_safe_count(current_user) %></span>件、dangerデータ<span class="badge"><%= user_message_danger_count(current_user) %></span>件のため、<span class="badge"><%= lesser_label_count(current_user) %></span>件づつ取得して学習します。</p>
         <%= form_tag learn_new_path do |f| %>
         　　<p>Einstein Token: <%= text_field_tag :einstein_token %></p>
@@ -33,18 +38,18 @@
         <% end %>
       <% else %>
         <hr>
-        <h3>4. 学習しましょう</h3>
+        <h3>5. 学習しましょう</h3>
         <p>少なくともsafeデータとdangerデータがそれぞれ<span class="badge">1</span>件以上ないと学習できません。</p>
       <% end %>
 
       <% if user_model_count(current_user) > 0 %>
         <hr>
-        <h3>5. 興味があれば学習履歴を見てみましょう</h3>
+        <h3>6. 興味があれば学習履歴を見てみましょう</h3>
         <p>見なくても問題ありません。</p>
         <%= link_to '学習履歴', learn_index_path, class: "btn-lg btn-info btn" %>
 
         <hr>
-        <h3>6. dangerメールをslackに通知しましょう</h3>
+        <h3>7. dangerメールをslackに通知しましょう</h3>
         <%= form_tag detect_redirect_path do |f| %>
         　　<p>過去<%= number_field_tag :newer_than_hour %>何時間のメールからdangerメールを検出します。</p>
         　　<p>Einstein Token: <%= text_field_tag :einstein_token %></p>
@@ -56,6 +61,8 @@
       <a href="https://accounts.google.com/SignUp" target="_blank">https://accounts.google.com/SignUp</a>
       <h4>Slackのアカウントはお持ちですか？</h4>
       <a href="https://slack.com/" target="_blank">https://slack.com/</a>
+      <h4>Slack Incoming Webhooksはお持ちですか？</h4>
+      <a href="https://api.slack.com/apps" target="_blank">https://api.slack.com/apps</a>
       </br></br>
       <p><%= link_to image_tag('btn_google_signin_dark_focus_web.png'), user_google_omniauth_authorize_path %></p>
     <% end %>
