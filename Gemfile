@@ -20,6 +20,7 @@ gem 'google-api-client', '~> 0.11', require: 'google/apis/gmail_v1'
 gem 'omniauth-oauth2'
 gem 'omniauth-google-oauth2'
 gem 'google-cloud-translate'
+gem 'delayed_job_active_record'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
