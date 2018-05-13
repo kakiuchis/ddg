@@ -70,7 +70,10 @@
         <hr>
         <h3>7. dangerなメールをslackに通知しましょう</h3>
         <%= form_tag detect_redirect_path do |f| %>
-        　　<p>過去<%= number_field_tag :newer_than_hour %>何時間のメールからdangerメールを検出します。</p>
+        　　<p>
+          　　最新の学習データを使用して、
+            過去<%= number_field_tag :newer_than_hour %>何時間のメールからdangerメールを検出します。
+          </p>
         　　<p>
             Einstein Token: <%= text_field_tag :einstein_token %>
             </br>

@@ -72,7 +72,7 @@ class AnnounceJob < ApplicationJob
       text = "検出中にEinstein Tokenが失効しました。再発行しもう一度検出してください。\nhttps://ddgfb.herokuapp.com/"
       slack_annnounce(text, current_user.slack_url) 
     else
-      text = "以上、過去#{newer_than_hour}時間で#{i}件のdangerなメールが検出されました。\nhttps://ddgfb.herokuapp.com/"
+      text = "以上、過去#{newer_than_hour}時間で#{messages.count}件のBOSSからのメールがありましたが、#{i}件のdangerなメールが検出されました。\nhttps://ddgfb.herokuapp.com/"
       slack_annnounce(text, current_user.slack_url) 
     end
   end

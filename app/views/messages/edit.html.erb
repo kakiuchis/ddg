@@ -2,5 +2,6 @@
   <div class="wrapper col-md-8 col-md-offset-2 col-sm-12">
     <h2>英訳してください</h2>
     <%= render 'form', message: @message %>
+    <%= link_to 'メール一覧に戻る', messages_path, class: "btn btn-default btn-block" %>
   </div>
 </div>
