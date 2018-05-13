@@ -53,7 +53,6 @@ class GmailCallbacksController < ApplicationController
     query = "from:#{current_user.boss_email} to:#{current_user.email} newer_than:#{after_date}d"
     max_i = 5
 
-    ## get messages
     messages = get_messages(token, query)["messages"]
     if messages == nil
       redirect_to root_path, notice: "設定したBOSSのメールアドレス、指定した過去日数ではメールがヒットしませんでした。" 
