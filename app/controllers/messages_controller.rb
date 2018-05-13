@@ -26,7 +26,7 @@ class MessagesController < ApplicationController
       redirect_to messages_path
     else
       @message.destroy
-      redirect_to messages_path, notice: 'メッセージを削除しました。'
+      respond_with @message
     end
   end
 

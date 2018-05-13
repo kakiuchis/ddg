@@ -1,6 +1,8 @@
 class LearnController < ApplicationController
   before_action :authenticate_user!
+  respond_to :js
   include LearnHelper
+
   def index
     @learns = Learn.user_choice(current_user).reverse
   end
@@ -18,11 +20,12 @@ class LearnController < ApplicationController
   end
 
   def destroy
-    if Learn.find(params[:id]).user_id != current_user.id
+    @learn = Learn.find(params[:id])
+    if @learn.user_id != current_user.id
       redirect_to learn_index_path
     else
-      Learn.find(params[:id]).destroy
-      redirect_to learn_index_path, notice: "学習データを削除しました。"
+      @learn.destroy
+      respond_with @learn
     end
   end
 

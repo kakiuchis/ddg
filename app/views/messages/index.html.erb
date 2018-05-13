@@ -3,7 +3,7 @@
     <h2>BOSSからのメールデータ</h2>
     <p>～safeかdangerかラベリングしましょう！～</p>
     <% @messages.each do |message| %>
-      <div class="thumbnail">
+      <div class="thumbnail" id="message_<%= message.id %>">
         <div class="caption">
           <p class="text-left"><span class="label label-success"><%= new_or_not(message) %></span></p>
           <p class="text-left">【取込日時】<%= time_format(message.uptake_time) %></p>
@@ -12,7 +12,7 @@
           <%= render 'label_button', message: message %>
           <p class="text-right">
             <%= link_to '英訳', edit_message_path(message), class: "badge" %>
-            <%= link_to '削除', message, class: "badge", method: :delete, data: { confirm: '本当に大丈夫ですか？' } %>
+            <%= link_to '削除', message, class: "badge", method: :delete, remote: true, data: { confirm: '本当に大丈夫ですか？' } %>
           </p>
         </div>
       </div>
