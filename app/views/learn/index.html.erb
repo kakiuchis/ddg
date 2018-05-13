@@ -1,7 +1,7 @@
 <div class="container">
   <div class="col-md-8 col-md-offset-2 col-sm-12">
     <h2>学習履歴</h2>
-    <p>～学習履歴を解析しよりよいメールデータセットにしましょう！～</p>
+    <p>～学習履歴を解析し、よりよいメールデータセットにしましょう！～</p>
     <% @learns.each do |learn| %>
       <div class="thumbnail">
         <div class="caption">
@@ -16,7 +16,7 @@
           <p class="text-left">【データロード時間】<%= learn.datasetLoadTime %></p>
 
           <p class="text-right">
-            <%= link_to '', learn, method: :delete, class: "glyphicon glyphicon-trash", data: { confirm: '本当に大丈夫ですか？' } %>
+            <%= link_to '削除', learn, method: :delete, class: "badge", data: { confirm: '本当に大丈夫ですか？' } %>
           </p>
         </div>
       </div>

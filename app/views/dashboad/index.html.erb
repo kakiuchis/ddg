@@ -8,12 +8,18 @@
       <% if current_user.boss_email.present? && current_user.slack_url.present? %>
         <hr>
         <h3>2. Slacktとの連携テストをしましょう</h3>
-        <p>問題なければ、数秒でようこそメールがSlackに通知されます。通知が来なければSlack Incoming Webhook URLが間違っています。</p>
+        <p>
+          問題なければ、数秒でようこそメールがSlackに通知されます。
+        　　</br>
+        　　通知が来なければSlack Incoming Webhook URLが間違っています。
+      　　</p>
         <%= link_to 'テ　ス　ト', dashboad_test_path, class: "btn-lg btn-info btn" %>
 
         <hr>
         <h3>3. BOSSからのメールデータを取り込みましょう</h3>
-        <p>現在のメールデータ数は<span class="badge"><%= user_message_count(current_user) %></span>件です。</p>
+        <p>
+          現在のメールデータ数は<span class="badge"><%= user_message_count(current_user) %></span>件です。
+        </p>
         <%= form_tag gmail_callbacks_redirect_path do |f| %>
           <p>過去<%= number_field_tag :after_date %>何日分のデータを取り込む。</p>
           <%= submit_tag 'メール取込', class: "btn-lg btn-info btn" %>
@@ -23,11 +29,15 @@
       <% if user_message_count(current_user) > 0 %>
         <hr>
         <h3>4. メールデータをラベリングしましょう</h3>
-        <p>safeかdangerか判断しましょう。</p>
+        <p>
+          safeかdangerか判断しましょう。
+          </br>
+          現在、safeデータ<span class="badge"><%= user_message_safe_count(current_user) %></span>件、dangerデータ<span class="badge"><%= user_message_danger_count(current_user) %></span>件です。
+        </p>
         <%= link_to 'ラベリング', messages_path, class: "btn-lg btn-info btn" %>
       <% end %>
       
-      <% if lesser_label_count(current_user) > 2 %>
+      <% if lesser_label_count(current_user) > 4 %>
         <hr>
         <h3>5. 学習しましょう</h3>
         <p>
@@ -43,10 +53,10 @@
           </p>
           <%= submit_tag '学　　習', class: "btn-lg btn-info btn" %>
         <% end %>
-      <% else %>
+      <% elsif user_message_count(current_user) > 0 %>
         <hr>
         <h3>5. 学習しましょう</h3>
-        <p>少なくともsafeデータとdangerデータがそれぞれ<span class="badge">3</span>件以上ないと学習できません。</p>
+        <p>少なくともsafeデータとdangerデータがそれぞれ<span class="badge">5</span>件以上ないと学習できません。</p>
       <% end %>
 
       <% if user_model_count(current_user) > 0 %>

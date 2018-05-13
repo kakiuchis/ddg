@@ -11,8 +11,8 @@
           <p class="text-left">【本文】<%= message.body %></p>
           <%= render 'label_button', message: message %>
           <p class="text-right">
-            <%= link_to '', edit_message_path(message), class: "glyphicon glyphicon-pencil" %>
-            <%= link_to '', message, method: :delete, class: "glyphicon glyphicon-trash", data: { confirm: '本当に大丈夫ですか？' } %>
+            <%= link_to '英訳', edit_message_path(message), class: "badge" %>
+            <%= link_to '削除', message, class: "badge", method: :delete, data: { confirm: '本当に大丈夫ですか？' } %>
           </p>
         </div>
       </div>

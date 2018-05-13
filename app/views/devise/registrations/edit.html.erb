@@ -14,6 +14,7 @@
 
       <div class="form-group">
         <%= f.label "Slack Incoming Webhook URL" %>
+        <i><a href="https://api.slack.com/apps" target="_blank">(こちらから作成確認できます。)</a></i>
         <div class="">
           <%= f.url_field :slack_url, autofocus: true, class: "form-control", autocomplete: "slack_url", placeholder: "https://hooks.slack.com/services/XXXXXXXX/XXXXXXXX/xxxxxxxxxxx" %>
         </div>
