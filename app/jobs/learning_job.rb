@@ -71,11 +71,5 @@ class LearningJob < ApplicationJob
           user_id: current_user.id,
         )
       end
-
-      # ## test model
-      # if check_token(token) == "valid"
-      #   text = "I'd like to buy some shoes"
-      #   @result = test_model(token, model_id, text)
-      # end
   end
 end

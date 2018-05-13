@@ -60,7 +60,5 @@ class MessageUptakeJob < ApplicationJob
           break if i == max_i
         end
       end
-      # redirect_to controller: 'dashboad', action: 'index', notice: "#{i}件のメールを取り込みました。API無料枠の都合で1度に取得てきるメール数は#{max_i}件に制限されています。" unless i == 0
-      # redirect_to controller: 'dashboad', action: 'index', notice: "設定したBOSSのメールアドレス、指定した過去日数のメールはすでに取り込まれています。" if i == 0
   end
 end
