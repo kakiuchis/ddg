@@ -15,7 +15,7 @@ class LearnController < ApplicationController
       redirect_to root_path, notice: "Einstain Tokenが正しくありません。"
     else
       LearningJob.perform_later(current_user, token)
-      redirect_to root_path, notice: "ただいま学習中です。今しばらくお待ちください。"
+      redirect_to root_path, notice: "ただいま学習中です。完了次第Slackに通知されます。"
     end
   end
 

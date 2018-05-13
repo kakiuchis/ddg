@@ -1,6 +1,7 @@
 class GmailCallbacksController < ApplicationController
   before_action :authenticate_user!
   include GmailCallbacksHelper
+  include DetectHelper
 
   def redirect
     if params["after_date"] == ""
@@ -58,7 +59,7 @@ class GmailCallbacksController < ApplicationController
       redirect_to root_path, notice: "設定したBOSSのメールアドレス、指定した過去日数ではメールがヒットしませんでした。" 
     else
       MessageUptakeJob.perform_later(token, messages, max_i, current_user)
-      redirect_to root_path, notice: "現在メール取り込み中ですので、しばらくしたら更新してください。API無料枠の都合で1度に取得てきるメール数は#{max_i}件に制限されています。すでに取り込まれているメールは取り込まれません。" 
+      redirect_to root_path, notice: "現在メール取り込み中です。取り込み完了次第Slackで通知されます。" 
     end
   end
 end
