@@ -2,6 +2,7 @@ class LearnController < ApplicationController
   before_action :authenticate_user!
   respond_to :js
   include LearnHelper
+  include DetectHelper
 
   def index
     @learns = Learn.user_choice(current_user).reverse
@@ -15,7 +16,7 @@ class LearnController < ApplicationController
       redirect_to root_path, notice: "Einstain Tokenが正しくありません。"
     else
       LearningJob.perform_later(current_user, token)
-      redirect_to root_path, notice: "ただいま学習中です。完了次第Slackに通知されます。"
+      redirect_to root_path, notice: "ただいま学習中です。少なくとも6分程度かかります。完了次第Slackに通知されます。"
     end
   end
 

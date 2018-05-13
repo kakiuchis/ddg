@@ -10,7 +10,7 @@ class DetectController < ApplicationController
     if params["newer_than_hour"] == ""
       redirect_to root_path, notice: "取得する過去時間数を指定してください。" 
     elsif params["newer_than_hour"].to_i > 24
-      redirect_to root_path, notice: "API無料枠の都合で検出できるメールは過去24時間までに制限されています。"
+      redirect_to root_path, notice: "翻訳API無料枠の都合で検出できるメールは過去24時間までに制限されています。"
     elsif params["einstein_token"] == ""
       redirect_to root_path, notice: "Einstain Tokenを入力してください。"
     elsif check_token(params["einstein_token"]) == "invalid"

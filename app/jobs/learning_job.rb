@@ -1,5 +1,6 @@
 class LearningJob < ApplicationJob
   include LearnHelper
+  include DetectHelper
   queue_as :default
 
   def perform(current_user, token)
@@ -46,7 +47,7 @@ class LearningJob < ApplicationJob
     if check_token(token) == "valid" && model_id.present?
       @req_training_status = check_training_status(token, model_id)
       training_status = @req_training_status["status"]
-      while training_status == "RUNNING" || "QUEUED"
+      while training_status == "RUNNING" || training_status == "QUEUED"
         sleep(60)
         if check_token(token) == "valid"
           @req_training_status = check_training_status(token, model_id)

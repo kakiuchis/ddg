@@ -7,7 +7,7 @@
       
       <% if current_user.boss_email.present? && current_user.slack_url.present? %>
         <hr>
-        <h3>2. Slacktとの連携テストをしましょう</h3>
+        <h3>2. Slackとの連携テストをしましょう</h3>
         <p>
           問題なければ、数秒でようこそメールがSlackに通知されます。
         　　</br>
@@ -22,7 +22,7 @@
         </p>
         <%= form_tag gmail_callbacks_redirect_path do |f| %>
           <p>過去<%= number_field_tag :after_date %>何日分のデータを取り込む。</p>
-          <%= submit_tag 'メール取込', class: "btn-lg btn-info btn" %>
+          <%= submit_tag 'メール取込', class: "btn-lg btn-info btn", data: { confirm: '多数の翻訳リクエストが発生します。節約にご協力お願いします。' } %>
         <% end %>
       <% end %>
 
@@ -51,7 +51,7 @@
             </br>
             Einstein Tokenの発行は<a href="https://api.einstein.ai/token" target="_blank">https://api.einstein.ai/token</a>
           </p>
-          <%= submit_tag '学　　習', class: "btn-lg btn-info btn" %>
+          <%= submit_tag '学　　習', class: "btn-lg btn-info btn", data: { confirm: '学習には少なくとも6分以上かかります。準備はいいですか？' } %>
         <% end %>
       <% elsif user_message_count(current_user) > 0 %>
         <hr>
@@ -76,7 +76,7 @@
             </br>
             Einstein Tokenの発行は<a href="https://api.einstein.ai/token" target="_blank">https://api.einstein.ai/token</a>
           </p>
-          <%= submit_tag '検　　出', class: "btn-lg btn-info btn" %>     
+          <%= submit_tag '検　　出', class: "btn-lg btn-info btn", data: { confirm: 'メール数が多い場合、多数の翻訳APIリクエストが発生します。節約にご協力お願いします。' } %>     
         <% end %>
       <% end %>
     <% else %>
