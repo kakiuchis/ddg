@@ -24,12 +24,12 @@ class MessageUptakeJob < ApplicationJob
         ## get snippet
         body = message_info["snippet"]
         
-        # ## translate body
-        # body_en = "" if body.blank?
-        # body_en = translate(body) if body.present?
+        ## translate body
+        body_en = "" if body.blank?
+        body_en = translate(body) if body.present?
 
-        ## stop translate
-        body_en = body
+        # ## stop translate
+        # body_en = body
         
         ## get receive_time and subject
         message_info["payload"]["headers"].count.times do |i|

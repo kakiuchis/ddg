@@ -23,11 +23,11 @@ class AnnounceJob < ApplicationJob
       ## get snippet
       body = message_info["snippet"]
       if body.present?
-        # ## translate body
-        # body_en = translate(body) 
+        ## translate body
+        body_en = translate(body) 
 
-        ## stop translate
-        body_en = body
+        # ## stop translate
+        # body_en = body
 
         ## get analysis
         if check_token(einstein_token) == "invalid"
