@@ -28,6 +28,7 @@
             <li><%= link_to "Signed in as " + current_user.email, edit_user_registration_path if user_signed_in? %></li>
             <li class="navbar-form"><%= button_to 'TOPに戻る', root_path, method: :get, class: "btn btn-default" if user_signed_in? %></li>
             <li class="navbar-form"><%= button_to 'ログアウト', destroy_user_session_path, method: :delete, class: "btn btn-default" if user_signed_in? %></li>
+            <li class="navbar-form"><%= link_to "googleログイン", user_google_omniauth_authorize_path unless user_signed_in? %></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
